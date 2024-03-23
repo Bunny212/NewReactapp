@@ -1,8 +1,7 @@
 {
   "name": "sdi-app",
     "version": "0.1.0",
-  "homepage": ".",
-  "private": true,
+    "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/react-fontawesome": "^0.1.14",
