@@ -1,0 +1,140 @@
+import axios from 'axios';
+import * as types from './types';
+import { returnErrors } from './errorActions';
+import { City, Action } from '../../types/interfaces';
+import History from '../../components/common/History';
+import { authHeader } from '../../helpers/authHeader';
+import { configs } from '../../types/Constants';
+import { Dispatch } from 'redux';
+import { AppState } from '../store';
+import { toast } from "react-toastify";
+import _ from 'lodash';
+
+
+export const setCitiesLoading = () => ({ type: types.CITIES_LOADING });
+
+export const getCityList = (options: any = {}) => async (dispatch: Dispatch<Action>, getState: () => AppState) => {
+  dispatch({type: 'GET_CITY_LIST_REQUEST'});
+  const params = { ...options };
+  try {
+    const response = await axios.get(configs.url.API_URL + '/cities', authHeader(getState, params));
+    dispatch({
+      type: types.GET_CITY_LIST_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    if (_.get(error, 'response.data.msg', '')) {
+      dispatch({
+        type: types.GET_CITY_LIST_FAILURE,
+        payload: {msg: error.response.data.msg, status: error.response.status},
+      });
+      toast.error(error.response.data.msg || 'And error occured');
+    } else if (_.get(error, 'response.msg')) {
+      dispatch({
+        type: types.GET_CITY_LIST_FAILURE,
+        payload: {msg: error.response.msg},
+      });
+      toast.error(error.response.msg || 'And error occured');
+    }    
+  }
+};
+
+export const getAllCities = (options: any = {}) => (dispatch: Function, getState: Function) => {
+  dispatch(setCitiesLoading());
+  const params = { ...options };
+  axios
+    .get(configs.url.API_URL + '/cities', authHeader(getState, params))
+    .then((res) => {
+      dispatch({
+        type: types.GET_ALL_CITIES,
+        payload: res.data.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data.msg, err.response.status));
+    });
+};
+
+export const getCity = (id: number) => (dispatch: Function, getState: Function) => {
+  dispatch(setCitiesLoading());
+  axios
+    .get(`${configs.url.API_URL}/city/${id}`, authHeader(getState))
+    .then((res) => {
+      dispatch({
+        type: types.GET_CITY,
+        payload: id,
+      });
+    })
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data.msg, err.response.status));
+    });
+};
+
+export const addCity = (city: City) => async (dispatch: Dispatch<Action>, getState: () => AppState) => {
+  dispatch({type: 'ADD_CITY_REQUEST'});
+  try {
+    const response = await axios.post(configs.url.API_URL + '/city', city, authHeader(getState));
+    // const delay = (ms: any) => new Promise(resolve => setTimeout(resolve, ms))
+    // await delay(5000) /// waiting 1 second.
+
+    dispatch({
+      type: types.ADD_CITY_SUCCESS,
+      payload: response.data.data,
+    });
+    toast.success('City added successfully');
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: types.ADD_CITY_FAILURE,
+      payload: {msg: error.response.data.msg, status: error.response.status},
+    });
+    toast.error(error.response.data.msg || 'And error occured');
+  }
+};
+
+
+export const updateCity = (city: City) => async (dispatch: Dispatch<Action>, getState: () => AppState) => {
+  dispatch({type: 'UPDATE_CITY_REQUEST'});
+  console.log(city);
+  try {
+    const response = await axios.put(configs.url.API_URL + '/city', city, authHeader(getState));
+    dispatch({
+      type: types.UPDATE_CITY_SUCCESS,
+      payload: response.data.data,
+    });
+    toast.success('City updated successfully');
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: types.UPDATE_CITY_FAILURE,
+      payload: {msg: error.response.data.msg, status: error.response.status},
+    });
+    toast.error(error.response.data.msg || 'And error occured');
+    // dispatch(returnErrors(error.response.data.msg, error.response.status));
+  }
+};
+
+export const deleteCity = (id: number) => async (dispatch: Dispatch<Action>, getState: () => AppState) => {
+  dispatch({type: 'DELETE_CITY_REQUEST'});
+  try {
+    const response = await axios.delete(`${configs.url.API_URL}/city/${id}`, authHeader(getState));
+    dispatch({
+      type: types.DELETE_CITY_SUCCESS,
+      payload: id,
+    });
+    toast.success('City deleted successfully');
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: types.DELETE_CITY_FAILURE,
+      payload: {msg: error.response.data.msg, status: error.response.status},
+    });
+    toast.error(error.response.data.msg || 'And error occured');
+  }
+ 
+};
+
+interface UpdateCity {
+  type: typeof types.UPDATE_CITY_REQUEST,
+  city: City
+}

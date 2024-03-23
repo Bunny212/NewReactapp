@@ -1,0 +1,164 @@
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import ReactModal from 'react-modal-resizable-draggable';
+import _ from 'lodash';
+import * as filterActions from '../../redux/actions/filterActions';
+import {
+  FilterReduxProps,
+  FilterList,
+  Filter,
+  Action
+} from '../../types/interfaces';
+
+const confirmModalStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    height: '500px',
+    overflow: 'scroll',
+    width: '70%',
+  }
+};
+
+const FilterPage = ({ filters, actions }: FilterList) => {
+  const [confirmModalData, setConfirmModalData] = useState({
+    id: 0,
+    s_garage_filter: '',
+    s_address: ''
+  });
+
+  const closeConfirmModal = () => {
+    setConfirmModalData({ id: 0, s_garage_filter: false });
+  };
+
+  const handleConfirmModal = (id: number) => {
+    setConfirmModalData({ id, s_garage_filter: true });
+  };
+
+  const handleDelete = () => {
+    if (confirmModalData.id) {
+      actions.deleteFilter(confirmModalData.id);
+      closeConfirmModal();
+    } else {
+      closeConfirmModal();
+    }
+  };
+
+  const showData = () => {
+    if (!_.isEmpty(filters)) {
+      return filters.map((filter: Filter) => (
+        <tr key={filter.id}>
+          <td>{filter.s_garage_filter}</td>
+          <td>
+            <a
+              href="#"
+              title="Delete"
+              className="text_red"
+              onClick={() => handleConfirmModal(filter.id)}
+            >
+              <i className="fa fa-times-circle fa-lg" />
+            </a>
+          </td>
+        </tr>
+      ));
+    }
+  
+    return <p>No data available</p>;
+  };
+  
+
+
+  return (
+    <>
+      <div className="container">
+        <div className="row">
+          <div className="card">
+            <div className="card-header">
+              <div className="row">
+                <div className="col-md-3">
+                  <h3>
+                    Filters
+                    <br />
+                    <small>Manage Filters</small>
+                  </h3>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-body">
+              <h4 className="text_blue">Filter Details</h4>
+              <div className="clear pad-5" />
+
+              <div className="table-responsive">
+                <table className="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {showData()}
+                  </tbody>
+                </table>
+              </div>
+
+              <ReactModal
+                isOpen={confirmModalData.status}
+                onRequestClose={closeConfirmModal}
+                style={confirmModalStyles}
+                contentLabel="Confirm Delete"
+                initHeight={200}
+                initWidth={500}
+              >
+                <div className="clear pad-15"></div>
+                <h3>Confirm</h3>
+                <form className="form-horizontal" onSubmit={(e) => e.preventDefault()}>
+                  <div className="row">
+                    <div className="col-md-12">
+                      Do you want to delete the record?
+                    </div>
+                  </div>
+                  <div className="clear pad-15"></div>
+                  <div className="pull-right">
+                    <button
+                      className="btn btn-default btn-sm mr-5"
+                      onClick={closeConfirmModal}
+                    >
+                      No
+                    </button>
+                    <button
+                      className="btn btn-info btn-sm"
+                      onClick={handleDelete}
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </form>
+              </ReactModal>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const mapStateToProps = (state: FilterReduxProps) => ({
+  filters: state.filters,
+});
+
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, Action>) => ({
+  actions: {
+    deleteFilter: (id: number) => dispatch(filterActions.deleteFilter(id)),
+  },
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterPage);
