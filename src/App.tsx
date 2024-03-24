@@ -74,19 +74,31 @@ const App = () => {
   //     return (<><Redirect to='/login' /></>)
   //   }
   // }
+  // useEffect(() => {
+
+  //   if (!localStorage.getItem("token") && window.location.pathname !== '/login') {
+  //   // console.log(location.pathname);
+
+
+  //     window.location.href = '/login';
+  //     // return History.push('/login');
+  //     // return <Redirect to='/login' />
+  //   }
+  //   // loginRedirect();
+  //   store.dispatch(loadUser());
+  // }, []);
+
+
+
   useEffect(() => {
-
-    if (!localStorage.getItem("token") && window.location.pathname !== '/login') {
-    // console.log(location.pathname);
-
-
-      window.location.href = '/login';
-      // return History.push('/login');
-      // return <Redirect to='/login' />
+    const token = localStorage.getItem("token");
+  
+    if (!token && window.location.pathname !== '/login') {
+      History.push('/login');
     }
-    // loginRedirect();
+  
     store.dispatch(loadUser());
-  }, []);
+  }, [localStorage.getItem("token")]);
  
   return (
     <>
