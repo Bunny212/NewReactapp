@@ -1,13 +1,13 @@
 const prod = {
   url: {
-    API_URL: 'https://9d8d4152b6.nxcli.io/sdi-api',
-    API_URL_USERS: 'https://9d8d4152b6.nxcli.io/sdi-api/users',
+    API_URL: 'https://staging.lln.lcb.mybluehost.me/public',
+    API_URL_USERS: 'https://staging.lln.lcb.mybluehost.me/public/users',
     PAGE_SIZE: 20
   }
 };
 const dev = {
   url: {
-    API_URL: 'https://9d8d4152b6.nxcli.io/sdi-api',
+    API_URL: 'https://staging.lln.lcb.mybluehost.me/public',
     PAGE_SIZE: 20
   }
 };
