@@ -68,8 +68,8 @@ export const login = ({ email, password }: IAuthFunction) => (
   
     // .post(configs.url.API_URL + '/login', body, config)
     .post(configs.url.API_URL + '/login', body, {
-      ...config, // Spread existing config options
-      withCredentials: true, // Add withCredentials option
+      // ...config, // Spread existing config options
+      
     })
     .then((res) => {
       dispatch({  
