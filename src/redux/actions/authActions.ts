@@ -65,7 +65,7 @@ export const login = ({ email, password }: IAuthFunction) => (
   const body = JSON.stringify({ email, password });
 
   axios
-    .post(configs.url.API_URL + '/api/login', body, config)
+    .post(configs.url.API_URL + '/login', body, config)
     .then((res) => {
       dispatch({
         type: types.LOGIN_SUCCESS,
