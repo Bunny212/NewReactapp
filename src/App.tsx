@@ -4,13 +4,9 @@ import Header from './components/common/Header';
 import History from './components/common/History';
 import PrivateRoute from './components/common/PrivateRoute';
 import PublicRoute from './components/common/PublicRoute';
-
-
 import HomePage from './components/home/HomePage';
 import LoginPage from './components/auth/LoginPage';
 import PageNotFound from './components/PageNotFound';
-
-
 import ArticleList from './components/ArticleList';
 import UserPage from './components/UserPage';
 import CityPage from './components/city/CityPage';
@@ -20,7 +16,6 @@ import InvoicePage from './components/invoices/InvoicePage';
 import InvoiceallPage from './components/invoiceall/InvoiceallPage';
 import DeliveredByPage from './components/delivered-by/DeliveredByPage';
 import HouseTypePage from './components/house-type/HouseTypePage';
-
 import GarageFinishPage from './components/garage-finish/GarageFinishPage';
 import GarageStallPage from './components/garage-stall/GarageStallPage';
 import OptionPage from './components/option/OptionPage';
@@ -34,17 +29,13 @@ import SprayerPage from './components/sprayer/SprayerPage';
 import GaragePage from './components/garage/GaragePage';
 import BillingItemPage from './components/billing-item/BillingItemPage';
 import HouseLevelTypePage from './components/house-level-type/HouseLevelTypePage';
-
 import ReportPage from './components/report/ReportPage';
-
 // for every call, get user details
 import store from './redux/store';
 import { loadUser } from './redux/actions/authActions';
-
-
 // import 'bootstrap/dist/css/bootstrap.min.css';
-// import './Bootstrap.css';
-// import './Style.css';
+import './Bootstrap.css';
+import './Style.css';
 
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";

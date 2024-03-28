@@ -32,7 +32,6 @@ import Print from '../common/Print';
 import History from '../common/History';
 import { appConfig } from '../../types/AppConfig';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-
 import {
   JobOrderReduxProps,
   JobOrderPageList,
