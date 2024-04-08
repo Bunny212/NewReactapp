@@ -1247,6 +1247,10 @@ const JobOrderPage = ({
   const [isMailModalOpen, setIsMailModalOpen] = React.useState(false);
   const [mailSubmitted, setMailSubmitted] = useState(false);
 
+  const myRef = useRef<any>(null);
+  var handlePrint = useReactToPrint({
+    content: () => myRef.current,
+  });
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setJobOrderError("");
@@ -1304,7 +1308,11 @@ const JobOrderPage = ({
           // History.push("/job-orders/123");
           // alert("done done ");
           // print();
-          toast.success("Job order saved successfully now you can print ");
+          toast.success("Job order saved successfully");
+          // if (componentRef && componentRef.current) {
+          //   componentRef.current.handlePrint();
+          // }
+          handlePrint?.();
         }, 1500);
       } else {
         await actions.updateJobOrder(formData);
@@ -1360,9 +1368,13 @@ const JobOrderPage = ({
   const { houseLevelTypes: houseLevelTypesData } = houseLevelTypes;
 
   const componentRef: any = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  // const handlePrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  // });
+  // const myRef = useRef<any>(null);
+  // var handlePrint = useReactToPrint({
+  //   content: () => myRef.current,
+  // });
 
   // interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   //   onClick?(): void;
@@ -1654,10 +1666,10 @@ const JobOrderPage = ({
                       style={{ marginRight: "5px" }}
                     >
                       <i className="fas fa-save mr-5" />
-                      Save
+                      Save & Print JIO
                     </button>
 
-                    <ReactToPrint
+                    {/* <ReactToPrint
                       trigger={() => (
                         <button
                           className="btn btn-primary btn-sm ml-2 mr-2"
@@ -1667,6 +1679,11 @@ const JobOrderPage = ({
                         </button>
                       )}
                       content={() => componentRef.current}
+                    /> */}
+                    <ReactToPrint
+                      trigger={() => <></>} // Empty React element
+                      content={() => componentRef.current}
+                      ref={componentRef}
                     />
                   </>
                 </div>
@@ -2920,7 +2937,7 @@ const JobOrderPage = ({
                       onKeyDown={(e) => handleEnter(e)}
                     >
                       <i className="fas fa-save mr-5" />
-                      Save
+                      Save & Print JIO
                     </button>
                   </div>
                 </div>
@@ -3166,7 +3183,8 @@ const JobOrderPage = ({
       <div style={{ display: "none" }}>
         <>
           <div
-            ref={componentRef}
+            ref={myRef}
+            // ref={componentRef}
             style={{
               width: "97%",
               margin: "12px",
@@ -3722,33 +3740,33 @@ const JobOrderPage = ({
                 Sheet Rock Stocked:
               </h3>
               {/* <table
-              style={{
-                borderCollapse: "collapse",
-                width: "100%",
-                border: "#fff 0px solid",
-              }}
-            >
-              <tr>{renderBillingItemsSelectList()}</tr>
-              {formdata.houseLevels.length > 0 ? (
-                formdata.houseLevels.map((singleLevel: any, i: any) => (
-                  <>
-                    <tr key={i}>
-                      {renderHouseLevelTypesHeading(
-                        singleLevel.rowOrder,
-                        singleLevel.houseLevelTypeId
-                      )}
-                      {renderBillingItemsInputList(
-                        singleLevel.rowOrder,
-                        singleLevel.billingItems
-                        // true
-                      )}
-                    </tr>
-                  </>
-                ))
-              ) : (
-                <></>
-              )}
-            </table> */}
+                style={{
+                  borderCollapse: "collapse",
+                  width: "100%",
+                  border: "#fff 0px solid",
+                }}
+              >
+                <tr>{renderBillingItemsSelectList()}</tr>
+                {formdata.houseLevels.length > 0 ? (
+                  formdata.houseLevels.map((singleLevel: any, i: any) => (
+                    <>
+                      <tr key={i}>
+                        {renderHouseLevelTypesHeading(
+                          singleLevel.rowOrder,
+                          singleLevel.houseLevelTypeId
+                        )}
+                        {renderBillingItemsInputList(
+                          singleLevel.rowOrder,
+                          singleLevel.billingItems
+                          // true
+                        )}
+                      </tr>
+                    </>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </table> */}
             </div>
             <div style={{ padding: "5px", marginTop: "-6px" }}>
               <h3
