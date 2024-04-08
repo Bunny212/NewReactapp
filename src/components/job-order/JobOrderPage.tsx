@@ -43,6 +43,7 @@ import {
   Target,
 } from "../../types/interfaces";
 import { Alert } from "react-bootstrap";
+import { Console } from "console";
 
 Modal.setAppElement("#root");
 const emailModalStyles = {
@@ -1304,20 +1305,22 @@ const JobOrderPage = ({
         });
       } else if (!formData.id) {
         actions.addJobOrder(formData);
-        setTimeout(() => {
-          // History.push("/job-orders/123");
-          // alert("done done ");
-          // print();
-          toast.success("Job order saved successfully");
-          // if (componentRef && componentRef.current) {
-          //   componentRef.current.handlePrint();
-          // }
-          handlePrint?.();
-        }, 1500);
+        // console.log("thkkhskdfsadkfsdf", formData.id === 0);
+
+        if (formData.id === 0) {
+          setTimeout(() => {
+            // History.push("/");
+            // alert("done done ");
+            // print();
+            toast.success("Job order saved successfully");
+
+            handlePrint?.();
+          }, 1500);
+        }
       } else {
         await actions.updateJobOrder(formData);
         toast.success("Job order updated successfully");
-        // History.push("/");
+        History.push("/");
       }
     } else {
       setJobOrderError(
@@ -1659,7 +1662,7 @@ const JobOrderPage = ({
                     <></>
                   )}
                   <>
-                    <button
+                    {/* <button
                       form="jio-form"
                       type="submit"
                       className="btn btn-primary btn-sm"
@@ -1667,8 +1670,27 @@ const JobOrderPage = ({
                     >
                       <i className="fas fa-save mr-5" />
                       Save & Print JIO
-                    </button>
+                    </button> */}
 
+                    {formdata.id === 0 ? (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save & Print JIO
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save
+                      </button>
+                    )}
                     {/* <ReactToPrint
                       trigger={() => (
                         <button
@@ -2931,14 +2953,26 @@ const JobOrderPage = ({
                       <i className="fas fa-arrow-circle-left mr-5" />
                       Return to Schedules
                     </button>
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-sm"
-                      onKeyDown={(e) => handleEnter(e)}
-                    >
-                      <i className="fas fa-save mr-5" />
-                      Save & Print JIO
-                    </button>
+
+                    {formdata.id === 0 ? (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save & Print JIO
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save
+                      </button>
+                    )}
                   </div>
                 </div>
 
