@@ -1,7 +1,7 @@
 {
   "name": "sdi-app",
-    "version": "0.1.0",
-    "private": true,
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/react-fontawesome": "^0.1.14",
@@ -59,13 +59,14 @@
     "uuid": "^7.0.3"
   },
   "scripts": {
-    "start": "set PORT=3003 && set NODE_ENV=development && DISABLE_ESLINT_PLUGIN=true react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "start": "set PORT=3003 && set NODE_ENV=development && set DISABLE_ESLINT_PLUGIN=true && react-scripts start",
+    "build": "set GENERATE_SOURCEMAP=false && set DISABLE_ESLINT_PLUGIN=true && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "@typescript-eslint/no-non-null-assertion": "off"
   },
   "browserslist": {
     "production": [

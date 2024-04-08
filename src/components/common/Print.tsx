@@ -1,27 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { Dispatch, bindActionCreators } from 'redux';
-import ReactToPrint, { useReactToPrint } from 'react-to-print';
-import DryWallPrint from '../job-order/dryWallPrint';
-import JioPrint from '../job-order/jioPrint';
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Dispatch, bindActionCreators } from "redux";
+import ReactToPrint, { useReactToPrint } from "react-to-print";
+import DryWallPrint from "../job-order/dryWallPrint";
+import JioPrint from "../job-order/jioPrint";
 
-
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
   JobOrderReduxProps,
   JobOrderList,
   JobOrder,
   Target,
-} from '../../types/interfaces';
-
+} from "../../types/interfaces";
 
 const Print = (props: any) => {
-
-  const { id, label } = useParams();
+  var { id, label } = useParams();
   // props.id
   // console.log('soooooo', id);
-  // console.log(props.id);
+  // var id = props.id.tostring();
+  var abc = props.id.toString();
+  var id = abc;
+
+  // console.log("this is fahad ", typeof id);
+
   const componentRef: any = useRef();
 
   // console.log(props.handlePrintSubmit);
@@ -35,7 +37,6 @@ const Print = (props: any) => {
   // };
   // const Example = () => {
 
-
   // return (
   //   <div>
   // <HomePage />
@@ -46,8 +47,6 @@ const Print = (props: any) => {
 
   return (
     <>
-
-
       <ReactToPrint
         onBeforeGetContent={() => {
           if (props.handlePrintSubmit !== undefined) {
@@ -58,31 +57,30 @@ const Print = (props: any) => {
               }, 1500);
             });
           }
-        }
-        }
+        }}
         trigger={() => (
           <button
             // form={props.componentName === 'jio' ? 'jio-form' : ''}
             type="button"
-            className={`btn btn-primary ${props.className || ''}`}
-          // onClick={() => props.handlePrintSubmit()}
+            className={`btn btn-primary ${props.className || ""}`}
+            // onClick={() => props.handlePrintSubmit()}
           >
             {props.label}
-          </button>)}
+          </button>
+        )}
         content={() => componentRef.current}
       />
       <div style={{ display: "none" }}>
-
         <div ref={componentRef}>
-          {props.componentName === 'drywall' ? (
+          {props.componentName === "drywall" ? (
             <>
               <DryWallPrint />
             </>
           ) : (
-              <>
-                <JioPrint />
-              </>
-            )}
+            <>
+              <JioPrint />
+            </>
+          )}
         </div>
         {/* <HomePage /> */}
       </div>
@@ -96,8 +94,6 @@ const Print = (props: any) => {
         <i className="fas fa-save mr-5" />
         Save & Print JIO
       </button> */}
-
-
     </>
   );
 };
@@ -107,16 +103,10 @@ Print.propTypes = {
   // actions: PropTypes.func.isRequired
 };
 
-
-const mapStateToProps = (state: any) => ({
-});
+const mapStateToProps = (state: any) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  actions: {
-  },
+  actions: {},
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Print);
+export default connect(mapStateToProps, mapDispatchToProps)(Print);
