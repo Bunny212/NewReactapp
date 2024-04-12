@@ -43,6 +43,7 @@ import {
   Target,
 } from "../../types/interfaces";
 import { Alert } from "react-bootstrap";
+import { Console } from "console";
 
 Modal.setAppElement("#root");
 const emailModalStyles = {
@@ -1090,6 +1091,7 @@ const JobOrderPage = ({
         </div>
       );
     }
+
     return items;
   };
 
@@ -1121,32 +1123,39 @@ const JobOrderPage = ({
     );
 
     return (
-      <select
-        className="form-control input-sm"
-        name="ddLabel1"
-        // defaultValue="0"
-        value={getSelectedBillingItem(index)}
-        onChange={(e) => onItemSelectChange(e, "billing_item", index)}
-        onKeyDown={(e) => handleEnter(e)}
-      >
-        <option value="0">Select</option>
-        {billingItems.length > 0 ? (
-          billingItems.map((item: any, index: any) => {
-            if (
-              item.id !== appConfig.billingItems.highSheets.id &&
-              item.id !== appConfig.billingItems.garageHighSheets.id
-            ) {
-              return (
-                <option key={index} value={item.id}>
-                  {item.billingItemName}
-                </option>
-              );
-            }
-          })
-        ) : (
-          <></>
-        )}
-      </select>
+      <>
+        <select
+          className="form-control input-sm"
+          name="ddLabel1"
+          // defaultValue="0"
+          value={getSelectedBillingItem(index)}
+          // onChange={(e) => onItemSelectChange(e, "billing_item", index)}
+          onChange={(e) => {
+            const selectedValue = e.target.value;
+            console.log(selectedValue); // Log the selected value to the console
+            onItemSelectChange(e, "billing_item", index);
+          }}
+          onKeyDown={(e) => handleEnter(e)}
+        >
+          <option value="0">Select</option>
+          {billingItems.length > 0 ? (
+            billingItems.map((item: any, index: any) => {
+              if (
+                item.id !== appConfig.billingItems.highSheets.id &&
+                item.id !== appConfig.billingItems.garageHighSheets.id
+              ) {
+                return (
+                  <option key={index} value={item.id}>
+                    {item.billingItemName}
+                  </option>
+                );
+              }
+            })
+          ) : (
+            <></>
+          )}
+        </select>
+      </>
     );
   };
 
@@ -1225,6 +1234,124 @@ const JobOrderPage = ({
     );
   };
 
+  const renderBillingItemsSelectListPrint = () => {
+    const items = [];
+    items.push(<th style={{ border: "none", color: "blue" }}>&nbsp;</th>);
+
+    for (let i = 1; i <= 8; i++) {
+      items.push(<>{renderBillingItemsHeaderPrint(i)}</>);
+    }
+    return items;
+  };
+
+  const getSelectedBillingItemPrint = (index: number) => {
+    const items = formData.houseLevels
+      .filter((item: any) => {
+        return item.billingItems.some(
+          (singleItem: any) => singleItem.columnOrder == index
+        );
+      })
+      .map((item: any) => {
+        let singleItem = Object.assign({}, item);
+        return singleItem.billingItems.filter(
+          (subItem: any) => subItem.columnOrder == index
+        );
+      })
+      .flat();
+
+    const itemId = items.length > 0 ? items[0].billingItemId : 0;
+    const itemName = billingItemsData.filter((item: any) => item.id == itemId);
+
+    return itemName.length > 0 ? itemName[0].billingItemName : "";
+  };
+
+  const renderBillingItemsHeaderPrint = (index: number) => {
+    if (getSelectedBillingItemPrint(index) !== "") {
+      return (
+        <th
+          style={{
+            textAlign: "center",
+            paddingRight: "5px",
+            color: "blue",
+            border: "none",
+          }}
+        >
+          {getSelectedBillingItemPrint(index)}
+        </th>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
+  const renderHouseLevelTypesHeadingPrint = (index: number, value: any) => {
+    // const houseLevelName = formData.houseLevels.filter((item: any) => item.id == value);
+
+    const houseLevelName = houseLevelTypesData.filter(
+      (item: any) => item.id == value
+    );
+    const houseName =
+      houseLevelName.length > 0 ? houseLevelName[0].houseTypeName : "N.A";
+
+    return (
+      <th
+        style={{
+          textAlign: "left",
+          paddingRight: "5px",
+          color: "blue",
+          border: "none",
+        }}
+      >
+        {houseName}
+      </th>
+    );
+  };
+
+  const renderBillingItemsInputListPrint = (
+    rowIndex: number,
+    billingItems: any,
+    readOnly: boolean = false
+  ) => {
+    const items = [];
+    for (let i = 1; i <= 8; i++) {
+      items.push(
+        <>{renderBillingItemInputPrint(rowIndex, i, billingItems, readOnly)}</>
+      );
+    }
+    return items;
+  };
+
+  const renderBillingItemInputPrint = (
+    rowIndex: number,
+    index: number,
+    billingItems: any,
+    readOnly: boolean
+  ) => {
+    const value = billingItems.filter((item: any) => {
+      return billingItemsData.some(
+        (singleItem: any) => item.columnOrder == index
+      );
+    });
+
+    const itemValue = value.length ? value[0].itemValue : "0";
+    if (getSelectedBillingItemPrint(index) !== "") {
+      return (
+        <td
+          key={index}
+          style={{
+            textAlign: "center",
+            color: "#000",
+            border: "1px solid #606060",
+          }}
+        >
+          {itemValue || 0}
+        </td>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   const handleOkay = () => {
     alert("so what");
   };
@@ -1247,6 +1374,10 @@ const JobOrderPage = ({
   const [isMailModalOpen, setIsMailModalOpen] = React.useState(false);
   const [mailSubmitted, setMailSubmitted] = useState(false);
 
+  const myRef = useRef<any>(null);
+  var handlePrint = useReactToPrint({
+    content: () => myRef.current,
+  });
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setJobOrderError("");
@@ -1300,16 +1431,22 @@ const JobOrderPage = ({
         });
       } else if (!formData.id) {
         actions.addJobOrder(formData);
-        setTimeout(() => {
-          // History.push("/job-orders/123");
-          // alert("done done ");
-          // print();
-          toast.success("Job order saved successfully now you can print ");
-        }, 1500);
+        // console.log("thkkhskdfsadkfsdf", formData.id === 0);
+
+        if (formData.id === 0) {
+          setTimeout(() => {
+            // History.push("/");
+            // alert("done done ");
+            // print();
+            toast.success("Job order saved successfully");
+
+            handlePrint?.();
+          }, 1500);
+        }
       } else {
         await actions.updateJobOrder(formData);
         toast.success("Job order updated successfully");
-        // History.push("/");
+        History.push("/");
       }
     } else {
       setJobOrderError(
@@ -1360,9 +1497,13 @@ const JobOrderPage = ({
   const { houseLevelTypes: houseLevelTypesData } = houseLevelTypes;
 
   const componentRef: any = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  // const handlePrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  // });
+  // const myRef = useRef<any>(null);
+  // var handlePrint = useReactToPrint({
+  //   content: () => myRef.current,
+  // });
 
   // interface Props extends Omit<ReactDatePickerProps, 'onChange'> {
   //   onClick?(): void;
@@ -1647,17 +1788,36 @@ const JobOrderPage = ({
                     <></>
                   )}
                   <>
-                    <button
+                    {/* <button
                       form="jio-form"
                       type="submit"
                       className="btn btn-primary btn-sm"
                       style={{ marginRight: "5px" }}
                     >
                       <i className="fas fa-save mr-5" />
-                      Save
-                    </button>
+                      Save & Print JIO
+                    </button> */}
 
-                    <ReactToPrint
+                    {formdata.id === 0 ? (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save & Print JIO
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save
+                      </button>
+                    )}
+                    {/* <ReactToPrint
                       trigger={() => (
                         <button
                           className="btn btn-primary btn-sm ml-2 mr-2"
@@ -1667,6 +1827,11 @@ const JobOrderPage = ({
                         </button>
                       )}
                       content={() => componentRef.current}
+                    /> */}
+                    <ReactToPrint
+                      trigger={() => <></>} // Empty React element
+                      content={() => componentRef.current}
+                      ref={componentRef}
                     />
                   </>
                 </div>
@@ -2369,7 +2534,7 @@ const JobOrderPage = ({
                         {renderHouseLevelTypesSelect(1, 0)}
                       </div>
 
-                      {renderBillingItemsInputList(1, [])}
+                      {/* {renderBillingItemsInputList(1, [])} */}
                       <div className="clear pad-5" />
                     </>
                   )}
@@ -2914,14 +3079,26 @@ const JobOrderPage = ({
                       <i className="fas fa-arrow-circle-left mr-5" />
                       Return to Schedules
                     </button>
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-sm"
-                      onKeyDown={(e) => handleEnter(e)}
-                    >
-                      <i className="fas fa-save mr-5" />
-                      Save
-                    </button>
+
+                    {formdata.id === 0 ? (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save & Print JIO
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -3161,12 +3338,13 @@ const JobOrderPage = ({
         </form>
       </ReactModal>
 
-      {console.log("formdata", formdata)}
+      {/* {console.log("formdata", formdata)} */}
 
       <div style={{ display: "none" }}>
         <>
           <div
-            ref={componentRef}
+            ref={myRef}
+            // ref={componentRef}
             style={{
               width: "97%",
               margin: "12px",
@@ -3721,34 +3899,63 @@ const JobOrderPage = ({
               >
                 Sheet Rock Stocked:
               </h3>
+
               {/* <table
-              style={{
-                borderCollapse: "collapse",
-                width: "100%",
-                border: "#fff 0px solid",
-              }}
-            >
-              <tr>{renderBillingItemsSelectList()}</tr>
-              {formdata.houseLevels.length > 0 ? (
-                formdata.houseLevels.map((singleLevel: any, i: any) => (
-                  <>
-                    <tr key={i}>
-                      {renderHouseLevelTypesHeading(
-                        singleLevel.rowOrder,
-                        singleLevel.houseLevelTypeId
-                      )}
-                      {renderBillingItemsInputList(
-                        singleLevel.rowOrder,
-                        singleLevel.billingItems
-                        // true
-                      )}
-                    </tr>
-                  </>
-                ))
-              ) : (
-                <></>
-              )}
-            </table> */}
+                style={{
+                  borderCollapse: "collapse",
+                  width: "100%",
+                  border: "#fff 0px solid",
+                }}
+              >
+                <tr>{renderBillingItemsSelectList()}</tr>
+                {formdata.houseLevels.length > 0 ? (
+                  formdata.houseLevels.map((singleLevel: any, i: any) => (
+                    <>
+                      <tr key={i}>
+                        {renderHouseLevelTypesHeading(
+                          singleLevel.rowOrder,
+                          singleLevel.houseLevelTypeId
+                        )}
+                        {renderBillingItemsInputList(
+                          singleLevel.rowOrder,
+                          singleLevel.billingItems
+                          // true
+                        )}
+                      </tr>
+                    </>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </table> */}
+              <table
+                style={{
+                  borderCollapse: "collapse",
+                  width: "100%",
+                  border: "#fff 0px solid",
+                }}
+              >
+                <>{renderBillingItemsSelectListPrint()}</>
+                {formdata.houseLevels.length > 0 ? (
+                  formdata.houseLevels.map((singleLevel: any, i: any) => (
+                    <>
+                      <tr key={i}>
+                        {renderHouseLevelTypesHeadingPrint(
+                          singleLevel.rowOrder,
+                          singleLevel.houseLevelTypeId
+                        )}
+                        {renderBillingItemsInputListPrint(
+                          singleLevel.rowOrder,
+                          singleLevel.billingItems,
+                          true
+                        )}
+                      </tr>
+                    </>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </table>
             </div>
             <div style={{ padding: "5px", marginTop: "-6px" }}>
               <h3
