@@ -1726,6 +1726,16 @@ const JobOrderPage = ({
     // Update the state with the selected text
     setSelectedText(text);
   };
+
+  const button1Ref = useRef<HTMLButtonElement | null>(null); // Explicitly specify the type
+  const button2Ref = useRef<HTMLButtonElement | null>(null); // Explicitly specify the type
+
+  // Event handler for button1 click
+  const handleButtonClick1 = () => {
+    // Simulate a click on button2
+    button2Ref.current?.click(); // Optional chaining
+  };
+
   return (
     <>
       <ToastContainer />
@@ -1783,57 +1793,31 @@ const JobOrderPage = ({
                         className="mr-5 btn-sm"
                         componentName="drywall"
                       />
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  <>
-                    {/* <button
-                      form="jio-form"
-                      type="submit"
-                      className="btn btn-primary btn-sm"
-                      style={{ marginRight: "5px" }}
-                    >
-                      <i className="fas fa-save mr-5" />
-                      Save & Print JIO
-                    </button> */}
-
-                    {formdata.id === 0 ? (
                       <button
                         type="submit"
                         className="btn btn-primary btn-sm"
                         onKeyDown={(e) => handleEnter(e)}
-                      >
-                        <i className="fas fa-save mr-5" />
-                        Save & Print JIO
-                      </button>
-                    ) : (
-                      <button
-                        type="submit"
-                        className="btn btn-primary btn-sm"
-                        onKeyDown={(e) => handleEnter(e)}
+                        ref={button1Ref}
+                        onClick={handleButtonClick1}
                       >
                         <i className="fas fa-save mr-5" />
                         Save
                       </button>
-                    )}
-                    {/* <ReactToPrint
-                      trigger={() => (
-                        <button
-                          className="btn btn-primary btn-sm ml-2 mr-2"
-                          onClick={handlePrint}
-                        >
-                          Print
-                        </button>
-                      )}
-                      content={() => componentRef.current}
-                    /> */}
-                    <ReactToPrint
-                      trigger={() => <></>} // Empty React element
-                      content={() => componentRef.current}
-                      ref={componentRef}
-                    />
-                  </>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm"
+                        onKeyDown={(e) => handleEnter(e)}
+                        ref={button1Ref}
+                        onClick={handleButtonClick1}
+                      >
+                        <i className="fas fa-save mr-5" />
+                        Save & Print JIO
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -3085,6 +3069,7 @@ const JobOrderPage = ({
                         type="submit"
                         className="btn btn-primary btn-sm"
                         onKeyDown={(e) => handleEnter(e)}
+                        ref={button2Ref}
                       >
                         <i className="fas fa-save mr-5" />
                         Save & Print JIO
@@ -3094,6 +3079,7 @@ const JobOrderPage = ({
                         type="submit"
                         className="btn btn-primary btn-sm"
                         onKeyDown={(e) => handleEnter(e)}
+                        ref={button2Ref}
                       >
                         <i className="fas fa-save mr-5" />
                         Save
