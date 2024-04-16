@@ -605,7 +605,6 @@ const JioPrint = ({
             </tr>
           </table>
         </div>
-<<<<<<< HEAD
         <div style={{ padding: '5px', marginTop: '-6px' }}>
           <h3 style={{ textAlign: 'left', fontSize: '18px', fontWeight: 'bold', color: '#aa4444', marginTop: '5px' }}>Sheet Rock Stocked:</h3>
           <table style={{ borderCollapse: 'collapse', width: '100%', border: '#fff 0px solid' }}>
@@ -621,47 +620,6 @@ const JioPrint = ({
 
               </>
             )) : (<></>)}
-=======
-        <div style={{ padding: "5px", marginTop: "-6px" }}>
-          <h3
-            style={{
-              textAlign: "left",
-              fontSize: "18px",
-              fontWeight: "bold",
-              color: "#aa4444",
-              marginTop: "5px",
-            }}
-          >
-            Sheet Rock Stocked:
-          </h3>
-          <table
-            style={{
-              borderCollapse: "collapse",
-              width: "100%",
-              border: "#fff 0px solid",
-            }}
-          >
-            <>{renderBillingItemsSelectList()}</>
-            {formData.houseLevels.length > 0 ? (
-              formData.houseLevels.map((singleLevel: any, i: any) => (
-                <>
-                  <tr key={i}>
-                    {renderHouseLevelTypesHeading(
-                      singleLevel.rowOrder,
-                      singleLevel.houseLevelTypeId
-                    )}
-                    {renderBillingItemsInputList(
-                      singleLevel.rowOrder,
-                      singleLevel.billingItems,
-                      true
-                    )}
-                  </tr>
-                </>
-              ))
-            ) : (
-              <></>
-            )}
->>>>>>> 9a639eacf6b1fbf53ac9513174542c3bd869435a
           </table>
         </div>
         <div style={{ padding: '5px', marginTop: '-6px' }}>
