@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import ReactModal from 'react-modal-resizable-draggable';
-import _ from 'lodash';
-import * as filterActions from '../../redux/actions/filterActions';
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import ReactModal from "react-modal-resizable-draggable";
+import _ from "lodash";
+import * as filterActions from "../../redux/actions/filterActions";
 import {
   FilterReduxProps,
   FilterList,
   Filter,
-  Action
-} from '../../types/interfaces';
+  Action,
+} from "../../types/interfaces";
 
 const confirmModalStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    height: '500px',
-    overflow: 'scroll',
-    width: '70%',
-  }
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    height: "500px",
+    overflow: "scroll",
+    width: "70%",
+  },
 };
 
 const FilterPage = ({ filters, actions }: FilterList) => {
   const [confirmModalData, setConfirmModalData] = useState({
     id: 0,
-    status: false
+    status: false,
   });
 
   const closeConfirmModal = () => {
@@ -50,13 +50,26 @@ const FilterPage = ({ filters, actions }: FilterList) => {
 
   const showData = () => {
     if (!_.isEmpty(filters)) {
+      // @ts-ignore
+      return filters.map((filter) => (
+        <tr key={filter.id}>
+          <td>{filter.name}</td>
+          <td>
+            <a
+              href="#"
+              title="Delete"
+              className="text_red"
+              onClick={() => handleConfirmModal(filter.id)}
+            >
+              <i className="fa fa-times-circle fa-lg" />
+            </a>
+          </td>
+        </tr>
+      ));
     }
 
     return <p>No data available</p>;
   };
-
-  
-
 
   return (
     <>
@@ -87,9 +100,7 @@ const FilterPage = ({ filters, actions }: FilterList) => {
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {showData()}
-                  </tbody>
+                  <tbody>{showData()}</tbody>
                 </table>
               </div>
 
@@ -103,7 +114,10 @@ const FilterPage = ({ filters, actions }: FilterList) => {
               >
                 <div className="clear pad-15"></div>
                 <h3>Confirm</h3>
-                <form className="form-horizontal" onSubmit={(e) => e.preventDefault()}>
+                <form
+                  className="form-horizontal"
+                  onSubmit={(e) => e.preventDefault()}
+                >
                   <div className="row">
                     <div className="col-md-12">
                       Do you want to delete the record?
@@ -135,24 +149,14 @@ const FilterPage = ({ filters, actions }: FilterList) => {
 };
 
 const mapStateToProps = (state: FilterReduxProps) => ({
-  filters: {
-    loading: state.filters.loading,
-    error: state.filters.error,
-    data: state.filters.filterItems, // Assuming filterItems is the correct property name
-  },
+  filters: state.filters,
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, Action>) => ({
   actions: {
-    getAllFilters: () => dispatch(filterActions.getAllFilters()),
-    getFilter: (id: number) => dispatch(filterActions.getFilter(id)),
-    getFilterList: (options?: any) => dispatch(filterActions.getFilterList(options)),
     deleteFilter: (id: number) => dispatch(filterActions.deleteFilter(id)),
   },
 });
 
-
-
-
-
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatchToProps)(FilterPage);

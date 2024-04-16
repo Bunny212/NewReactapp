@@ -570,7 +570,22 @@ const SchedulePage = ({
     return newDate;
   }
 
-  const highlightBackgroundClass = (date: any, dayInterval: number) => {
+  const highlightBackgroundClass = (date: any, dayInterval: number,jobOrderId: number) => {
+    // // console.log(date);
+    const currentJobOrder = jobOrdersData.filter((jobOrder: any) => jobOrder.id === jobOrderId)[0] || {};
+    // // console.log(currentJobOrder);
+    let paintStDate = moment(currentJobOrder.paintStartDate).format('YYYY-MM-DD');
+    let CurrentDate = moment().format('YYYY-MM-DD')
+    // // if( CurrentDate >= paintStDate){
+    // //   setPaintDateStatus(true);
+    // //   console.log(jobOrderId, currentJobOrder.id);
+    // //   setJobOrderId(jobOrderId);
+    // // }else{
+    // //   setPaintDateStatus(false);
+    // //   setJobOrderId(jobOrderId);
+    // // }
+
+
     if (!date) {
       return '';
     }
@@ -579,9 +594,20 @@ const SchedulePage = ({
     dayInterval = dayInterval ? dayInterval : 0;
     let targetDate = moment(date).add('days', dayInterval);
     let highlightClass = '';
-    if (currentDate.isSame(targetDate, 'd')) {
-      highlightClass = 'light-green';
-    }
+
+  // // Check if the current date is above the paintStartDate
+  // if (paintStDate && CurrentDate.isAfter(moment(paintStDate))) {
+  //   highlightClass = 'table-row-error';
+  // }
+  // // Check if the target date is the same as the current date
+  // else if (CurrentDate.isSame(targetDate, 'd')) {
+  //   highlightClass = 'light-green';
+  // }
+
+  if (currentDate.isSame(targetDate, 'd')) {
+    highlightClass = 'light-green';
+  }
+
     return highlightClass;
   }
 
@@ -620,14 +646,9 @@ const SchedulePage = ({
   const onSingleDateChange = async (date: any, jobOrderId: any, dateFieldName: string) => {
 
     const currentJobOrder = jobOrdersData.filter((jobOrder: any) => jobOrder.id === jobOrderId)[0] || {};
-
     console.log(currentJobOrder);
-
     let updatedDates = getCalculatedDate(date, false, dateFieldName, currentJobOrder);
-
     console.log(updatedDates);
-
-
     let paintStDate = moment(currentJobOrder.paintStartDate).format('YYYY-MM-DD');
 
     if(updatedDates.sanderDate >= paintStDate){
@@ -1517,7 +1538,7 @@ useEffect(() => {
                                   name="hangerStartDate"
                                   selected={!!jobOrder.hangerStartDate ? moment(calculateDate(jobOrder.hangerStartDate, 0)).toDate() : null}
                                   onChange={(date) => onSingleDateChange(date, jobOrder.id, 'hangerStartDate')}
-                                  customInput={<DateCustomInput customClassName={`form-control ${highlightBackgroundClass(jobOrder.hangerStartDate, 0)}`} groupClassName="addon input-group-sm" />}
+                                  customInput={<DateCustomInput customClassName={`form-control ${highlightBackgroundClass(jobOrder.hangerStartDate, 0,jobOrder.id)}`} groupClassName="addon input-group-sm" />}
                                 />
                                 {/* <span className="input-group-addon">
                                   <i className="far fa-calendar-alt"></i>
@@ -1530,7 +1551,7 @@ useEffect(() => {
                                   name="hangerEndDate"
                                   selected={!!jobOrder.hangerEndDate ? moment(calculateDate(jobOrder.hangerEndDate, 0)).toDate() : null}
                                   onChange={(date) => onSingleDateChange(date, jobOrder.id, 'hangerEndDate')}
-                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.hangerEndDate, 0)}`} groupClassName="addon input-group-sm" />}
+                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.hangerEndDate, 0,jobOrder.id)}`} groupClassName="addon input-group-sm" />}
                                 />
                                 {/* <span className="input-group-addon">
                                   <i className="far fa-calendar-alt"></i>
@@ -1584,7 +1605,7 @@ useEffect(() => {
                                   name="start2"
                                   selected={!!jobOrder.taperStartDate ? moment(calculateDate(jobOrder.taperStartDate, 0)).toDate() : null}
                                   onChange={(date) => onSingleDateChange(date, jobOrder.id, 'taperStartDate')}
-                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.taperStartDate, 0)}`} groupClassName="addon input-group-sm" />}
+                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.taperStartDate, 0,jobOrder.id)}`} groupClassName="addon input-group-sm" />}
                                 />
                                 {/* <span className="input-group-addon">
                                   <i className="far fa-calendar-alt"></i>
@@ -1597,7 +1618,7 @@ useEffect(() => {
                                   name="taperEndDate"
                                   selected={!!jobOrder.taperEndDate ? moment(calculateDate(jobOrder.taperEndDate, 0)).toDate() : null}
                                   onChange={(date) => onSingleDateChange(date, jobOrder.id, 'taperEndDate')}
-                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.taperEndDate, 0)}`} groupClassName="addon input-group-sm" />}
+                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.taperEndDate, 0,jobOrder.id)}`} groupClassName="addon input-group-sm" />}
                                 />
                                 {/* <span className="input-group-addon">
                                   <i className="far fa-calendar-alt"></i>
@@ -1668,7 +1689,7 @@ useEffect(() => {
                                   name="sprayerDate"
                                   selected={!!jobOrder.sprayerDate ? moment(calculateDate(jobOrder.sprayerDate, 0)).toDate() : null}
                                   onChange={(date) => onSingleDateChange(date, jobOrder.id, 'sprayerDate')}
-                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.sprayerDate, 0)}`} groupClassName="addon input-group-sm" />}
+                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.sprayerDate, 0,jobOrder.id)}`} groupClassName="addon input-group-sm" />}
                                 />
                                 {/* <span className="input-group-addon">
                                   <i className="far fa-calendar-alt"></i>
@@ -1708,7 +1729,7 @@ useEffect(() => {
                                   name="sanderDate"
                                   selected={!!jobOrder.sanderDate ? moment(calculateDate(jobOrder.sanderDate, 0)).toDate() : null}
                                   onChange={(date) => onSingleDateChange(date, jobOrder.id, 'sanderDate')}
-                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.sanderDate, 0)}`} groupClassName="addon input-group-sm" />}
+                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.sanderDate, 0,jobOrder.id)}`} groupClassName="addon input-group-sm" />}
                                 />
                                 {/* <span className="input-group-addon">
                                   <i className="far fa-calendar-alt"></i>
@@ -1728,19 +1749,61 @@ useEffect(() => {
                                 </span>
                               </div>
                             </td> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <td>
                               {/* <div className="input-group"> */}
                                 <DatePicker
                                   name="paintDate"
                                   selected={!!jobOrder.paintStartDate ? moment(calculateDate(jobOrder.paintStartDate, 0)).toDate() : null}
                                   onChange={(date) => onSingleDateChange(date, jobOrder.id, 'paintStartDate')}
-                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.paintDate, 0)}`} groupClassName="addon input-group-sm" />}
+                                  customInput={<DateCustomInput customClassName={`form-control h-30 ${highlightBackgroundClass(jobOrder.paintDate, 0,jobOrder.id)}`} groupClassName="addon input-group-sm" />}
                                 />
                                 {/* <span className="input-group-addon">
                                   <i className="far fa-calendar-alt"></i>
                                 </span>
                               </div> */}
                             </td>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
                           </>
                         )}
                         

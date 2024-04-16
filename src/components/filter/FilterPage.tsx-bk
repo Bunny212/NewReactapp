@@ -50,8 +50,7 @@ const FilterPage = ({ filters, actions }: FilterList) => {
   };
 
   const showData = () => {
-    if (!_.isEmpty(filters)) {
-      return filters.map((filter: Filter) => (
+          return filters.map((filter: Filter) => (
         <tr key={filter.id}>
           <td>{filter.s_garage_filter}</td>
           <td>

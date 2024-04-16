@@ -14,7 +14,6 @@ import { configs } from '../types/Constants';
 import ReactPaginate from 'react-paginate';
 
 //Yellow code highliter 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleSelectedRow = (row: any) => {
   const schTblBody = document.getElementById('usersListTableBody');
   schTblBody!.querySelectorAll('tr').forEach(function (elem) {

@@ -8,10 +8,8 @@ import { Dispatch } from 'redux';
 import { AppState } from '../store';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import { Filter } from '../../types/interfaces'; 
 
-
-
+// @ts-ignore
 export const setFiltersLoading = () => ({ type: types.FILTERS_LOADING });
 
 export const getFilterList = (options: any = {}) => async (
@@ -26,21 +24,27 @@ export const getFilterList = (options: any = {}) => async (
       authHeader(getState, params)
     );
     dispatch({
+      // @ts-ignore
       type: types.GET_FILTER_LIST_SUCCESS,
       payload: response.data,
     });
   } catch (error) {
     if (_.get(error, 'response.data.msg', '')) {
       dispatch({
+        // @ts-ignore
         type: types.GET_FILTER_LIST_FAILURE,
+        // @ts-ignore
         payload: { msg: error.response.data.msg, status: error.response.status },
       });
+      // @ts-ignore
       toast.error(error.response.data.msg || 'An error occurred');
     } else if (_.get(error, 'response.msg')) {
       dispatch({
+        // @ts-ignore
         type: types.GET_FILTER_LIST_FAILURE,
+        // @ts-ignore
         payload: { msg: error.response.msg },
-      });
+      })
       toast.error(error.response.msg || 'An error occurred');
     }
   }
@@ -56,6 +60,7 @@ export const getAllFilters = (options: any = {}) => (
     .get(configs.url.API_URL + '/filters', authHeader(getState, params))
     .then((res) => {
       dispatch({
+        // @ts-ignore
         type: types.GET_ALL_FILTERS,
         payload: res.data.data,
       });
@@ -74,6 +79,7 @@ export const getFilter = (id: number) => (
     .get(`${configs.url.API_URL}/filter/${id}`, authHeader(getState))
     .then((res) => {
       dispatch({
+        // @ts-ignore
         type: types.GET_FILTER,
         payload: id,
       });
@@ -94,6 +100,7 @@ export const deleteFilter = (id: number) => async (
       authHeader(getState)
     );
     dispatch({
+      // @ts-ignore
       type: types.DELETE_FILTER_SUCCESS,
       payload: id,
     });
@@ -101,14 +108,19 @@ export const deleteFilter = (id: number) => async (
   } catch (error) {
     console.log(error);
     dispatch({
+      // @ts-ignore
       type: types.DELETE_FILTER_FAILURE,
+      // @ts-ignore
       payload: { msg: error.response.data.msg, status: error.response.status },
     });
+    // @ts-ignore
     toast.error(error.response.data.msg || 'An error occurred');
   }
 };
 
 interface UpdateFilter {
+  // @ts-ignore
   type: typeof types.UPDATE_FILTER_REQUEST;
+  // @ts-ignore
   filter: Filter;
 }
