@@ -35,6 +35,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import ReactToPrint from "react-to-print";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 import {
   JobOrderReduxProps,
@@ -168,6 +169,15 @@ const JobOrderPage = ({
       height: "30px",
     }),
   };
+
+  interface HouseType {
+    id: number;
+    house_type_id: string;
+    house_type_value: string;
+    // Add other properties as needed
+  }
+  const [housetypelist, Sethousetypelist] = useState<HouseType[]>([]); // Annotate the type explicitly
+  const [selectedHouseTypeId, setSelectedHouseTypeId] = useState<string>("");
 
   const setFormDataState = () => {
     if (jobOrders.activeJobOrder.id !== undefined) {
@@ -1736,6 +1746,75 @@ const JobOrderPage = ({
     button2Ref.current?.click(); // Optional chaining
   };
 
+  var fetchData = async () => {
+    try {
+      const requestOptions = {
+        method: "GET",
+      };
+      const response = await fetch(
+        "https://9d8d4152b6.nxcli.io/sdi-api/house-type-new",
+        requestOptions
+      );
+      var result = await response.json();
+      console.log("result", result);
+      Sethousetypelist(result.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // Fetch data when component mounts
+  }, []); // Empty dependency array ensures this effect runs only once
+  console.log("--------------------------------", housetypelist);
+
+  const handleSelectChange = (event: any) => {
+    const selectedId = event.target.value;
+    setSelectedHouseTypeId(selectedId);
+    handleViewData(selectedId);
+    console.log(selectedId);
+  };
+
+  const handleViewData = async (id: number) => {
+    try {
+      const requestOptions = {
+        method: "GET",
+      };
+      const response = await fetch(
+        `https://9d8d4152b6.nxcli.io/sdi-api/house-type-new/${id}`,
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("get the data form the Edit ", result.data);
+      // alert("Record is Edit ");
+
+      setFormData((prevState) => ({
+        ...prevState,
+        // id: result.data.id,
+        builderId: parseInt(result.data.builder_id),
+        builderName: result.data.builder_value,
+        houseTypeId: parseInt(result.data.house_type_id),
+        houseTypeValue: result.data.house_type_value,
+        garageStallId: parseInt(result.data.garage_stalls_id),
+        garageStallName: result.data.garage_stalls_value,
+        garageFinishId: parseInt(result.data.garage_finish_id),
+        garageFinishName: result.data.garage_finish_name,
+        ceilingFinishId: parseInt(result.data.ceiling_finish_id),
+        ceilingFinishName: result.data.ceiling_finish_name,
+        houseTotal12Inch: parseInt(result.data.house_total_12_inch),
+        houseTotal54Inch: parseInt(result.data.house_total_54_inch),
+        garageTotal12Inch: parseInt(result.data.garage_total_12_inch),
+        garageTotal54Inch: parseInt(result.data.garage_total_54_inch),
+        houseLevels: JSON.parse(result.data.sheet_rock_stock_house_levels),
+        options: (result.data.options_available ?? "")
+          .split(", ")
+          .map((name: any) => ({ name })) as { name: string }[],
+      }));
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -1816,6 +1895,17 @@ const JobOrderPage = ({
                         <i className="fas fa-save mr-5" />
                         Save & Print JIO
                       </button>
+                      <NavLink className="text-white" to="/AddHousetypedetails">
+                        <button
+                          type="button"
+                          className="btn btn-primary btn-sm ml-5"
+                          onKeyDown={(e) => handleEnter(e)}
+                          ref={button1Ref}
+                          onClick={handleButtonClick1}
+                        >
+                          Add House Type
+                        </button>
+                      </NavLink>
                     </>
                   )}
                 </div>
@@ -1972,40 +2062,32 @@ const JobOrderPage = ({
                       />
                     </div>
                   </div>
+
                   <div className="form-group col-md-6 mb-10">
                     <label className="col-md-3 control-label">
                       House Type :<span className="text_red">*</span>
                     </label>
                     <div className="col-md-9">
                       <select
+                        id="houseTypeSelect"
+                        onChange={handleSelectChange}
+                        value={selectedHouseTypeId}
                         className={`form-control input-sm ${
                           submitted && !formData.houseTypeId
                             ? "ap-required"
                             : ""
                         }`}
-                        name="houseTypeId"
-                        value={formData.houseTypeId || 0}
-                        onChange={(e) => onFormChange(e)}
-                        onKeyDown={(e) => handleEnter(e)}
                       >
                         <option value="">Select House Type</option>
-                        <option value="add_new">Add New</option>
-                        {/* {houseTypesData.length > 0 ? houseTypesData.sort(sortIt('name')).map((singleHouseType) => (
-                          <option key={singleHouseType.id} value={singleHouseType.id}>{singleHouseType.name}</option>
-                        )) : (<></>)} */}
-                        {houseTypesData.length > 0 ? (
-                          houseTypesData.map((singleHouseType) => (
-                            <option
-                              key={singleHouseType.id}
-                              value={singleHouseType.id}
-                            >
-                              {singleHouseType.name}
-                            </option>
-                          ))
-                        ) : (
-                          <></>
-                        )}
+                        {console.log("houseType", housetypelist)}
+                        {housetypelist.map((houseType) => (
+                          <option key={houseType.id} value={houseType.id}>
+                            {houseType.house_type_value}
+                          </option>
+                        ))}
                       </select>
+
+                      <div></div>
                     </div>
                   </div>
                 </div>
