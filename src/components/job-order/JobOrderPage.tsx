@@ -141,6 +141,7 @@ const JobOrderPage = ({
   ]);
 
   const [hidden, sethidden] = useState(true);
+  const [housetypeName, setHousetypeName] = useState("");
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
@@ -1773,6 +1774,9 @@ const JobOrderPage = ({
     setSelectedHouseTypeId(selectedId);
     handleViewData(selectedId);
     console.log(selectedId);
+    const selectedName = event.target.options[event.target.selectedIndex].text;
+    // console.log("Selected ID:", selectedId);
+    setHousetypeName(selectedName);
   };
 
   const handleViewData = async (id: number) => {
@@ -2079,10 +2083,10 @@ const JobOrderPage = ({
                         }`}
                       >
                         <option value="">Select House Type</option>
-                        {console.log("houseType", housetypelist)}
                         {housetypelist.map((houseType) => (
                           <option key={houseType.id} value={houseType.id}>
-                            {houseType.house_type_value}
+                            {houseType.house_type_value}{" "}
+                            {/* Display the correct property in the options */}
                           </option>
                         ))}
                       </select>
@@ -3544,7 +3548,9 @@ const JobOrderPage = ({
                       border: "1px solid #606060",
                     }}
                   >
-                    {getHouseTypeName(formdata.houseTypeId, houseTypesData)}
+                    {/* {getHouseTypeName(formdata.houseTypeId, houseTypesData)}
+                     */}
+                    {housetypeName}
                   </td>
                 </tr>
                 <tr>
