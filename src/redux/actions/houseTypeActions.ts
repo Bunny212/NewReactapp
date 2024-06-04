@@ -13,6 +13,9 @@ import _ from 'lodash';
 
 export const setHouseTypeLoading = () => ({ type: types.HOUSE_TYPES_LOADING });
 
+export const setHouseTypeName = (houseName:any) => ({ type: types.HOUSE_TYPES_NAME , payload:houseName });
+
+
 export const getHouseTypeList = (options: any = {}) => async (dispatch: Dispatch<Action>, getState: () => AppState) => {
   dispatch({type: 'GET_HOUSE_TYPE_LIST_REQUEST'});
   const params = { ...options };
@@ -127,3 +130,6 @@ export const deleteHouseType = (id: number) => async (dispatch: Dispatch<Action>
     toast.error(error.response.data.msg || 'And error occured');
   }
 };
+
+
+

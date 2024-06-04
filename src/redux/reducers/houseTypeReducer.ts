@@ -1,11 +1,12 @@
 import * as types from '../actions/types';
 import { Action, HouseType } from '../../types/interfaces';
-import { type } from 'os';
+import { hostname, type } from 'os';
 
 
 const initialState = {
   houseTypes: [],
   loading: false,
+  hostname:null,
 };
 
 interface State {
@@ -71,6 +72,11 @@ export default function (state: State = initialState, action: Action) {
         loading: false,
         houseTypes: state.houseTypes.filter((houseType) => houseType.id !== action.payload),
       };
+      case types.HOUSE_TYPES_NAME:
+      return {
+        ...state,
+        houseName:action.payload
+             };
     default:
       return {
         ...state,

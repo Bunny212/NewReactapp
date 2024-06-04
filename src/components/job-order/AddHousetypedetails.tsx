@@ -193,9 +193,9 @@ const AddHousetypedetails = ({
         garageTotal12Inch: parseInt(result.data.garage_total_12_inch),
         garageTotal54Inch: parseInt(result.data.garage_total_54_inch),
         houseLevels: JSON.parse(result.data.sheet_rock_stock_house_levels),
-        options: (result.data.options_available ?? "")
-          .split(", ")
-          .map((name: any) => ({ name })) as { name: string }[],
+        options: JSON.parse(result.data.options_available ?? ""),
+        // .split(", ")
+        // .map((name: any) => ({ name })) as { name: string }[],
       }));
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -240,7 +240,7 @@ const AddHousetypedetails = ({
         garageTotal12Inch: parseInt(result.data.garage_total_12_inch),
         garageTotal54Inch: parseInt(result.data.garage_total_54_inch),
         houseLevels: JSON.parse(result.data.sheet_rock_stock_house_levels),
-        options: (result.data.options_available ?? "")
+        options: JSON.parse(result.data.options_available ?? "")
           .split(", ")
           .map((name: any) => ({ name })) as { name: string }[],
       }));
@@ -1601,11 +1601,9 @@ const AddHousetypedetails = ({
     garageStallsData
   );
 
-  const result = formData?.options.map((option: { name: string }) => {
-    return option.name;
-  });
+  const result = formData?.options;
 
-  const resultString = result?.join(", ");
+  const resultString = JSON.stringify(formData?.options);
 
   console.log(typeof resultString);
 

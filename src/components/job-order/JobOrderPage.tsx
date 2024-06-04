@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { Dispatch, bindActionCreators } from "redux";
 import Select from "react-select";
@@ -36,6 +36,7 @@ import ReactToPrint from "react-to-print";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
+// import { useDispatch } from "react-redux";
 
 import {
   JobOrderReduxProps,
@@ -44,7 +45,6 @@ import {
   Target,
 } from "../../types/interfaces";
 import { Alert } from "react-bootstrap";
-import { Console } from "console";
 
 Modal.setAppElement("#root");
 const emailModalStyles = {
@@ -100,10 +100,11 @@ const JobOrderPage = ({
     sortBy: "dateDESC",
   };
 
+  const [Edithousetypeid, setEdithousetypeid] = useState(0);
   useEffect(() => {
     // if(id !== undefined) {
     const jid: number = id !== undefined ? +id : 0;
-    //   actions.getJobOrder(jid);
+    actions.getJobOrder(jid);
     //   console.log('yes working');
     // }
 
@@ -141,7 +142,7 @@ const JobOrderPage = ({
   ]);
 
   const [hidden, sethidden] = useState(true);
-  const [housetypeName, setHousetypeName] = useState("");
+  const [housetypeName, setHouseName] = useState("");
   const customStyles = {
     control: (provided: any, state: any) => ({
       ...provided,
@@ -978,7 +979,7 @@ const JobOrderPage = ({
     };
 
     b.map((item, i) => {
-      console.log("item inside-------", item);
+      console.log("item inside-------", item?.houseLevelTypeId);
       item.billingItems.map((billItem: any) => {
         const itemGroupName = getBillingItemsGroupName(billItem.billingItemId);
         console.log(itemGroupName);
@@ -1442,7 +1443,9 @@ const JobOrderPage = ({
         });
       } else if (!formData.id) {
         actions.addJobOrder(formData);
-        // console.log("thkkhskdfsadkfsdf", formData.id === 0);
+        const result = actions.addJobOrder(formData);
+
+        console.log("thkkhskdfsadkfsdf", result);
 
         if (formData.id === 0) {
           setTimeout(() => {
@@ -1455,6 +1458,7 @@ const JobOrderPage = ({
           }, 1500);
         }
       } else {
+        console.log("this is form data from updata ", formData);
         await actions.updateJobOrder(formData);
         toast.success("Job order updated successfully");
         History.push("/");
@@ -1769,6 +1773,8 @@ const JobOrderPage = ({
   }, []); // Empty dependency array ensures this effect runs only once
   console.log("--------------------------------", housetypelist);
 
+  const dispatch = useDispatch();
+
   const handleSelectChange = (event: any) => {
     const selectedId = event.target.value;
     setSelectedHouseTypeId(selectedId);
@@ -1776,8 +1782,44 @@ const JobOrderPage = ({
     console.log(selectedId);
     const selectedName = event.target.options[event.target.selectedIndex].text;
     // console.log("Selected ID:", selectedId);
-    setHousetypeName(selectedName);
+    // setHouseName(selectedName);
+    // dispatch(HouseTypeActions.setHouseTypeName("fahad"));
+    console.log("this is house name ", selectedId);
   };
+
+  // const handleSelectChange = (event: any) => {
+  //   const selectedId = event.target.value;
+  //   // setSelectedHouseTypeId(selectedId);
+  //   // handleViewData(selectedId);
+  //   console.log("type of", typeof selectedId);
+
+  //   const selectedHouseType = housetypelist.find(
+  //     (houseType) => houseType.house_type_id === selectedId
+  //   );
+
+  //   // setSelectedHouseTypeId(selectedHouseType?.id  );
+  //   // handleViewData(selectedHouseType?.id);
+  //   console.log(selectedHouseType?.id);
+
+  //   if (selectedHouseType) {
+  //     console.log("Selected houseType.id:", typeof selectedHouseType.id);
+  //     console.log(
+  //       "Selected houseType.house_type_id:",
+  //       selectedHouseType.house_type_id
+  //     );
+  //   } else {
+  //     console.log("Selected house type not found");
+  //   }
+
+  //   const selectedName = event.target.options[event.target.selectedIndex].text;
+  //   setHouseName(selectedName);
+  //   dispatch(HouseTypeActions.setHouseTypeName("fahad"));
+  //   console.log("This is house name:", housetypeName);
+  // };
+
+  useEffect(() => {
+    handleViewData(Edithousetypeid);
+  }, [Edithousetypeid]);
 
   const handleViewData = async (id: number) => {
     try {
@@ -1790,6 +1832,8 @@ const JobOrderPage = ({
       );
       const result = await response.json();
       console.log("get the data form the Edit ", result.data);
+      console.log("hello", Edithousetypeid);
+      console.log("hello2", id);
       // alert("Record is Edit ");
 
       setFormData((prevState) => ({
@@ -1797,7 +1841,7 @@ const JobOrderPage = ({
         // id: result.data.id,
         builderId: parseInt(result.data.builder_id),
         builderName: result.data.builder_value,
-        houseTypeId: parseInt(result.data.house_type_id),
+        houseTypeId: parseInt(result.data.id),
         houseTypeValue: result.data.house_type_value,
         garageStallId: parseInt(result.data.garage_stalls_id),
         garageStallName: result.data.garage_stalls_value,
@@ -1810,15 +1854,18 @@ const JobOrderPage = ({
         garageTotal12Inch: parseInt(result.data.garage_total_12_inch),
         garageTotal54Inch: parseInt(result.data.garage_total_54_inch),
         houseLevels: JSON.parse(result.data.sheet_rock_stock_house_levels),
-        options: (result.data.options_available ?? "")
-          .split(", ")
-          .map((name: any) => ({ name })) as { name: string }[],
+        options: JSON.parse(result.data.options_available ?? ""),
+        // options: (result.data.options_available ?? "")
+        //   .split(", ")
+        //   .map((name: any) => ({ name })) as { name: string }[],
       }));
     } catch (error) {
       console.error("Error deleting item:", error);
     }
   };
+  var housetypeidtest = "478";
 
+  // dispatch(housetypeName)
   return (
     <>
       <ToastContainer />
@@ -1934,7 +1981,7 @@ const JobOrderPage = ({
                   formData.id
                 ) && (
                   <div className="row">
-                    <div className="form-group col-md-6 mb-10" />
+                    {/* <div className="form-group col-md-6 mb-10" />
                     <div className="form-group col-md-6 mb-10">
                       <label className="col-md-3 control-label">
                         <span className="text_red" />
@@ -1949,7 +1996,7 @@ const JobOrderPage = ({
                         />
                         Un-Verified
                       </label>
-                    </div>
+                    </div> */}
                   </div>
                 )}
                 {!!(formData.builderId && formData.isVerified) && (
@@ -1959,7 +2006,7 @@ const JobOrderPage = ({
                       <label className="col-md-3 control-label">
                         <span className="text_red" />
                       </label>
-                      <label className="checkbox-inline verifyCls">
+                      {/* <label className="checkbox-inline verifyCls">
                         <input
                           type="checkbox"
                           name="isVerified"
@@ -1968,7 +2015,7 @@ const JobOrderPage = ({
                           checked
                         />
                         Verified
-                      </label>
+                      </label> */}
                     </div>
                     <div className="form-group col-md-6 mb-10" />
                     <div className="form-group col-md-6 mb-10 markPaidOCls">
@@ -2072,16 +2119,26 @@ const JobOrderPage = ({
                       House Type :<span className="text_red">*</span>
                     </label>
                     <div className="col-md-9">
+                      {/* {console.log("this is form data", formData.houseTypeId)}
+                      {console.log("this is form data", formData)} */}
                       <select
                         id="houseTypeSelect"
                         onChange={handleSelectChange}
-                        value={selectedHouseTypeId}
+                        value={
+                          selectedHouseTypeId !== ""
+                            ? selectedHouseTypeId
+                            : formData.houseTypeId
+                        }
                         className={`form-control input-sm ${
                           submitted && !formData.houseTypeId
                             ? "ap-required"
                             : ""
                         }`}
                       >
+                        {/* {console.log(
+                          "selectedHouseTypeId",
+                          selectedHouseTypeId
+                        )} */}
                         <option value="">Select House Type</option>
                         {housetypelist.map((houseType) => (
                           <option key={houseType.id} value={houseType.id}>
