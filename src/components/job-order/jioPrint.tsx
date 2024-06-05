@@ -382,11 +382,9 @@ const JioPrint = ({
     return items;
   };
 
-  const houseTypeName = useSelector(
-    (state: RootStateOrAny) => state.housetypes
-  );
+  const houseTypeName = useSelector((state: RootStateOrAny) => state);
 
-  console.log("jio print data,,,,,", houseTypeName);
+  console.log("jio print data,,,,,", houseTypeName?.houseTypes?.houseName);
 
   const getSelectedBillingItem = (index: number) => {
     const items = formData.houseLevels
@@ -629,6 +627,7 @@ const JioPrint = ({
                 }}
               >
                 {/* {getHouseTypeName(formData.houseTypeId, houseTypesData)} */}
+                {houseTypeName?.houseTypes?.houseName}
               </td>
             </tr>
             <tr>

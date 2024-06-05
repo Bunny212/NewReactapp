@@ -1770,8 +1770,19 @@ const JobOrderPage = ({
 
   useEffect(() => {
     fetchData(); // Fetch data when component mounts
+    const timeoutId = setTimeout(handleSelectChangeprint, 2000);
+    return () => clearTimeout(timeoutId);
   }, []); // Empty dependency array ensures this effect runs only once
   console.log("--------------------------------", housetypelist);
+
+  const handleSelectChangeprint = () => {
+    const selectElement = document.getElementById(
+      "houseTypeSelect"
+    ) as HTMLSelectElement;
+    const selectedOption = selectElement.selectedOptions[0];
+    const selectedName = selectedOption.textContent;
+    dispatch(HouseTypeActions.setHouseTypeName(selectedName));
+  };
 
   const dispatch = useDispatch();
 
@@ -1782,9 +1793,9 @@ const JobOrderPage = ({
     console.log(selectedId);
     const selectedName = event.target.options[event.target.selectedIndex].text;
     // console.log("Selected ID:", selectedId);
-    // setHouseName(selectedName);
-    // dispatch(HouseTypeActions.setHouseTypeName("fahad"));
-    console.log("this is house name ", selectedId);
+    setHouseName(selectedName);
+    dispatch(HouseTypeActions.setHouseTypeName(selectedName));
+    // console.log("this is house name ", selectedId);
   };
 
   // const handleSelectChange = (event: any) => {
