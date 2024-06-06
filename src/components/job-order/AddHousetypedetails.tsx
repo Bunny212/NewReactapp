@@ -240,9 +240,10 @@ const AddHousetypedetails = ({
         garageTotal12Inch: parseInt(result.data.garage_total_12_inch),
         garageTotal54Inch: parseInt(result.data.garage_total_54_inch),
         houseLevels: JSON.parse(result.data.sheet_rock_stock_house_levels),
-        options: JSON.parse(result.data.options_available ?? "")
-          .split(", ")
-          .map((name: any) => ({ name })) as { name: string }[],
+        //   options: JSON.parse(result.data.options_available ?? "")
+        //     .split(", ")
+        //     .map((name: any) => ({ name })) as { name: string }[],
+        options: JSON.parse(result.data.options_available ?? ""),
       }));
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -1972,12 +1973,12 @@ const AddHousetypedetails = ({
                         <td>{item?.garage_finish_name}</td>
                         <td>{item?.ceiling_finish_name}</td>
                         <td>
-                          <button
+                          {/* <button
                             className="btn btn-danger btn-sm mr-5"
                             onClick={() => handleDeleteGet(item.id)}
                           >
                             Delete
-                          </button>
+                          </button> */}
                           <button
                             className="btn btn-primary btn-sm mr-5"
                             onClick={() => handleViewData(item.id)}
