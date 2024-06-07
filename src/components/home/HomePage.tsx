@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   useEffect(() => {
     // Check for register error
     const classList = document.body.classList;
     if (!classList.length && !localStorage.getItem("token")) {
-      classList.add('login_bg');
+      classList.add("login_bg");
     } else {
-      classList.remove('login_bg');
+      classList.remove("login_bg");
     }
-
   }, []);
   return (
     <>
@@ -69,7 +68,7 @@ const HomePage = () => {
                 </a>
               </li> */}
               <li>
-                <a href="/house-types">
+                <a href="/AddHousetypedetails">
                   <img src="./images/menu_house.png" alt="" />
                   <span>House Type</span>
                 </a>
@@ -129,6 +128,6 @@ const HomePage = () => {
       <footer>Copyright &copy; Schoenberger Drywall, Inc. 2020</footer>
     </>
   );
-}
+};
 
 export default HomePage;
