@@ -1443,17 +1443,17 @@ const JobOrderPage = ({
         });
       } else if (!formData.id) {
         actions.addJobOrder(formData);
-        const result = actions.addJobOrder(formData);
+        // const result = actions.addJobOrder(formData);
 
-        console.log("thkkhskdfsadkfsdf", result);
+        // console.log("thkkhskdfsadkfsdf", result);
 
         if (formData.id === 0) {
           setTimeout(() => {
             // History.push("/");
             // alert("done done ");
             // print();
-            toast.success("Job order saved successfully");
 
+            toast.success("Job order saved successfully");
             handlePrint?.();
           }, 1500);
         }
