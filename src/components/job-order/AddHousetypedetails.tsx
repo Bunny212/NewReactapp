@@ -113,7 +113,8 @@ const AddHousetypedetails = ({
         method: "GET",
       };
       const response = await fetch(
-        "https://9d8d4152b6.nxcli.io/sdi-api/house-type-new",
+        "https://2fd82c9861.nxcli.io/sdi-api/house-type-new",
+        // "https://9d8d4152b6.nxcli.io/sdi-api/house-type-new",
         requestOptions
       );
       const result = await response.json();
@@ -170,7 +171,7 @@ const AddHousetypedetails = ({
         method: "DELETE",
       };
       const response = await fetch(
-        `https://9d8d4152b6.nxcli.io/sdi-api/house-type-new/${id}`,
+        `https://2fd82c9861.nxcli.io/sdi-api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.text();
@@ -198,7 +199,7 @@ const AddHousetypedetails = ({
         method: "GET",
       };
       const response = await fetch(
-        `https://9d8d4152b6.nxcli.io/sdi-api/house-type-new/${id}`,
+        `https://2fd82c9861.nxcli.io/sdi-api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.json();
@@ -245,7 +246,7 @@ const AddHousetypedetails = ({
         method: "GET",
       };
       const response = await fetch(
-        `https://9d8d4152b6.nxcli.io/sdi-api/house-type-new/${id}`,
+        `https://2fd82c9861.nxcli.io/sdi-api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.json();
@@ -1663,7 +1664,7 @@ const AddHousetypedetails = ({
     console.log("Input Value:", Housetypedata);
   };
   const postData = async () => {
-    const url = "https://9d8d4152b6.nxcli.io/sdi-api/house-type-new-save";
+    const url = "https://2fd82c9861.nxcli.io/sdi-api/house-type-new-save";
     const data = {
       builder_id: formdata?.builderId,
       builder_value: builderName?.props?.children,
@@ -1723,7 +1724,7 @@ const AddHousetypedetails = ({
   const updateHouseType = async (id: any) => {
     try {
       const response = await fetch(
-        `https://9d8d4152b6.nxcli.io/sdi-api/house-type-new/${id}`,
+        `https://2fd82c9861.nxcli.io/sdi-api/house-type-new/${id}`,
         {
           method: "PUT",
           headers: {
