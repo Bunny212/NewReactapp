@@ -107,6 +107,59 @@ const AddHousetypedetails = ({
   };
   // const [jobOrder, setJobOrder] = useState<JobOrder>(defaultState);
 
+  // var fetchData = async () => {
+  //   try {
+  //     const requestOptions = {
+  //       method: "GET",
+  //     };
+  //     const response = await fetch(
+  //       "https://2fd82c9861.nxcli.io/sdi-api/house-type-new",
+  //       // "https://9d8d4152b6.nxcli.io/sdi-api/house-type-new",
+  //       requestOptions
+  //     );
+  //     const result = await response.json();
+  //     console.log("this is data to be sort", result.data);
+
+  //     const sortedData = result.data.sort((a: any, b: any) => {
+  //       // Check if the house_type_value starts with a number
+  //       const startsWithNumberA = /^\d/.test(a.house_type_value);
+  //       const startsWithNumberB = /^\d/.test(b.house_type_value);
+
+  //       // If one starts with a number and the other doesn't, sort accordingly
+  //       if (startsWithNumberA && !startsWithNumberB) {
+  //         return -1;
+  //       }
+  //       if (!startsWithNumberA && startsWithNumberB) {
+  //         return 1;
+  //       }
+
+  //       // If both start with a number or both don't, sort by house_type_id numerically
+  //       const houseTypeIdA = parseInt(a.house_type_id);
+  //       const houseTypeIdB = parseInt(b.house_type_id);
+  //       if (houseTypeIdA !== houseTypeIdB) {
+  //         return houseTypeIdA - houseTypeIdB;
+  //       }
+
+  //       // If house_type_id is the same, sort by house_type_value alphabetically
+  //       const houseTypeValueA = a.house_type_value.toLowerCase();
+  //       const houseTypeValueB = b.house_type_value.toLowerCase();
+  //       if (houseTypeValueA < houseTypeValueB) {
+  //         return -1;
+  //       }
+  //       if (houseTypeValueA > houseTypeValueB) {
+  //         return 1;
+  //       }
+  //       return 0;
+  //     });
+
+  //     // Set the sorted data to state
+  //     setResponseData(sortedData);
+  //     // setResponseData(result.data);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
   var fetchData = async () => {
     try {
       const requestOptions = {
@@ -114,11 +167,10 @@ const AddHousetypedetails = ({
       };
       const response = await fetch(
         "https://2fd82c9861.nxcli.io/sdi-api/house-type-new",
-        // "https://9d8d4152b6.nxcli.io/sdi-api/house-type-new",
         requestOptions
       );
-      const result = await response.json();
-      console.log("this is data to be sort", result.data);
+      var result = await response.json();
+      console.log("result", result);
 
       const sortedData = result.data.sort((a: any, b: any) => {
         // Check if the house_type_value starts with a number
@@ -133,28 +185,16 @@ const AddHousetypedetails = ({
           return 1;
         }
 
-        // If both start with a number or both don't, sort by house_type_id numerically
-        const houseTypeIdA = parseInt(a.house_type_id);
-        const houseTypeIdB = parseInt(b.house_type_id);
-        if (houseTypeIdA !== houseTypeIdB) {
-          return houseTypeIdA - houseTypeIdB;
-        }
-
-        // If house_type_id is the same, sort by house_type_value alphabetically
+        // If both start with a number or both don't, sort by house_type_value alphabetically
         const houseTypeValueA = a.house_type_value.toLowerCase();
         const houseTypeValueB = b.house_type_value.toLowerCase();
-        if (houseTypeValueA < houseTypeValueB) {
-          return -1;
-        }
-        if (houseTypeValueA > houseTypeValueB) {
-          return 1;
-        }
-        return 0;
+        return houseTypeValueA.localeCompare(houseTypeValueB);
       });
 
       // Set the sorted data to state
+      // setResponseData(sortedData);
       setResponseData(sortedData);
-      // setResponseData(result.data);
+      // Sethousetypelist(sortedData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

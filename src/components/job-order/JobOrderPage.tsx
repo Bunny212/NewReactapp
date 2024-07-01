@@ -280,7 +280,7 @@ const JobOrderPage = ({
     cityId: 0,
 
     deliveryDate: "",
-    deliveryTime: "",
+    deliveryTime: "AM",
     deliveredById: 0,
     deliveredByName: "",
 
@@ -1454,7 +1454,10 @@ const JobOrderPage = ({
             // print();
 
             toast.success("Job order saved successfully");
-            handlePrint?.();
+            if (printscreen) {
+              handlePrint?.();
+            }
+            setPrintscreen(false);
           }, 1500);
         }
       } else {
@@ -1684,6 +1687,7 @@ const JobOrderPage = ({
     status: 1,
   };
   const [isHouseTypeModalOpen, setIsHouseTypeModalOpen] = React.useState(false);
+  const [printscreen, setPrintscreen] = React.useState(false);
   const [houseTypeModalFormData, setHouseTypeModalFormData] = useState(
     defaultHouseTypeModalState
   );
@@ -1751,6 +1755,58 @@ const JobOrderPage = ({
     button2Ref.current?.click(); // Optional chaining
   };
 
+  // var fetchData = async () => {
+  //   try {
+  //     const requestOptions = {
+  //       method: "GET",
+  //     };
+  //     const response = await fetch(
+  //       "https://2fd82c9861.nxcli.io/sdi-api/house-type-new",
+  //       requestOptions
+  //     );
+  //     var result = await response.json();
+  //     console.log("result", result);
+
+  //     const sortedData = result.data.sort((a: any, b: any) => {
+  //       // Check if the house_type_value starts with a number
+  //       const startsWithNumberA = /^\d/.test(a.house_type_value);
+  //       const startsWithNumberB = /^\d/.test(b.house_type_value);
+
+  //       // If one starts with a number and the other doesn't, sort accordingly
+  //       if (startsWithNumberA && !startsWithNumberB) {
+  //         return -1;
+  //       }
+  //       if (!startsWithNumberA && startsWithNumberB) {
+  //         return 1;
+  //       }
+
+  //       // If both start with a number or both don't, sort by house_type_id numerically
+  //       const houseTypeIdA = parseInt(a.house_type_id);
+  //       const houseTypeIdB = parseInt(b.house_type_id);
+  //       if (houseTypeIdA !== houseTypeIdB) {
+  //         return houseTypeIdA - houseTypeIdB;
+  //       }
+
+  //       // If house_type_id is the same, sort by house_type_value alphabetically
+  //       const houseTypeValueA = a.house_type_value.toLowerCase();
+  //       const houseTypeValueB = b.house_type_value.toLowerCase();
+  //       if (houseTypeValueA < houseTypeValueB) {
+  //         return -1;
+  //       }
+  //       if (houseTypeValueA > houseTypeValueB) {
+  //         return 1;
+  //       }
+  //       return 0;
+  //     });
+
+  //     // Set the sorted data to state
+  //     // setResponseData(sortedData);
+  //     Sethousetypelist(sortedData);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
   var fetchData = async () => {
     try {
       const requestOptions = {
@@ -1776,23 +1832,10 @@ const JobOrderPage = ({
           return 1;
         }
 
-        // If both start with a number or both don't, sort by house_type_id numerically
-        const houseTypeIdA = parseInt(a.house_type_id);
-        const houseTypeIdB = parseInt(b.house_type_id);
-        if (houseTypeIdA !== houseTypeIdB) {
-          return houseTypeIdA - houseTypeIdB;
-        }
-
-        // If house_type_id is the same, sort by house_type_value alphabetically
+        // If both start with a number or both don't, sort by house_type_value alphabetically
         const houseTypeValueA = a.house_type_value.toLowerCase();
         const houseTypeValueB = b.house_type_value.toLowerCase();
-        if (houseTypeValueA < houseTypeValueB) {
-          return -1;
-        }
-        if (houseTypeValueA > houseTypeValueB) {
-          return 1;
-        }
-        return 0;
+        return houseTypeValueA.localeCompare(houseTypeValueB);
       });
 
       // Set the sorted data to state
@@ -1987,11 +2030,16 @@ const JobOrderPage = ({
                         className="btn btn-primary btn-sm"
                         onKeyDown={(e) => handleEnter(e)}
                         ref={button1Ref}
-                        onClick={handleButtonClick1}
+                        // onClick={handleButtonClick1, setPrintscreen(true)}
+                        onClick={() => {
+                          setPrintscreen(true);
+                          handleButtonClick1();
+                        }}
                       >
-                        <i className="fas fa-save mr-5" />
+                        <i className="fas fa-save mr-5 " />
                         Save & Print JIO
                       </button>
+
                       <NavLink className="text-white" to="/AddHousetypedetails">
                         <button
                           type="button"
@@ -2003,6 +2051,16 @@ const JobOrderPage = ({
                           Add House Type
                         </button>
                       </NavLink>
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-sm btn-sm ml-5"
+                        onKeyDown={(e) => handleEnter(e)}
+                        ref={button1Ref}
+                        onClick={handleButtonClick1}
+                      >
+                        <i className="fas fa-save " />
+                        Save
+                      </button>
                     </>
                   )}
                 </div>
@@ -2317,7 +2375,7 @@ const JobOrderPage = ({
                         onChange={(e) => onFormChange(e)}
                         onKeyDown={(e) => handleEnter(e)}
                       >
-                        <option value="">Please Select</option>
+                        {/* <option value="">Please Select</option> */}
                         <option value="AM">AM</option>
                         <option value="PM">PM</option>
                       </select>
