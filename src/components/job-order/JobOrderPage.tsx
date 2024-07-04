@@ -1216,6 +1216,8 @@ const JobOrderPage = ({
     for (let i = 1; i <= 8; i++) {
       items.push(<>{renderBillingItemInput(rowIndex, i, billingItems)}</>);
     }
+
+    console.log("items", items);
     return items;
   };
 
@@ -2085,7 +2087,7 @@ const JobOrderPage = ({
                   formData.id
                 ) && (
                   <div className="row">
-                    {/* <div className="form-group col-md-6 mb-10" />
+                    <div className="form-group col-md-6 mb-10" />
                     <div className="form-group col-md-6 mb-10">
                       <label className="col-md-3 control-label">
                         <span className="text_red" />
@@ -2100,7 +2102,7 @@ const JobOrderPage = ({
                         />
                         Un-Verified
                       </label>
-                    </div> */}
+                    </div>
                   </div>
                 )}
                 {!!(formData.builderId && formData.isVerified) && (
@@ -2110,7 +2112,7 @@ const JobOrderPage = ({
                       <label className="col-md-3 control-label">
                         <span className="text_red" />
                       </label>
-                      {/* <label className="checkbox-inline verifyCls">
+                      <label className="checkbox-inline verifyCls">
                         <input
                           type="checkbox"
                           name="isVerified"
@@ -2119,7 +2121,7 @@ const JobOrderPage = ({
                           checked
                         />
                         Verified
-                      </label> */}
+                      </label>
                     </div>
                     <div className="form-group col-md-6 mb-10" />
                     <div className="form-group col-md-6 mb-10 markPaidOCls">
@@ -2819,7 +2821,7 @@ const JobOrderPage = ({
                       <input
                         type="text"
                         name="total12"
-                        value={formData.total12 || 0}
+                        // value={formData.total12 || 0}
                         onChange={(e) => onFormNumberChange(e)}
                         className={`form-control input-sm ${
                           submitted && !formData.total12 ? "" : ""
