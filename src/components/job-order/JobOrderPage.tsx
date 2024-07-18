@@ -2821,7 +2821,7 @@ const JobOrderPage = ({
                       <input
                         type="text"
                         name="total12"
-                        // value={formData.total12 || 0}
+                        value={formData.total12 || 0}
                         onChange={(e) => onFormNumberChange(e)}
                         className={`form-control input-sm ${
                           submitted && !formData.total12 ? "" : ""
