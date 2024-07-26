@@ -1449,8 +1449,7 @@ const JobOrderPage = ({
        
         if (formData.id === 0) {
 
-          console.log("printscreen",printscreen)
-   
+        
             if (printscreen) {
               handlePrint?.();                  }
              setPrintscreen(false);
