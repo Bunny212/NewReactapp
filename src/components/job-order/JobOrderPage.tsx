@@ -101,6 +101,7 @@ const JobOrderPage = ({
   };
 
   const [Edithousetypeid, setEdithousetypeid] = useState(0);
+  const [isSpecialCondition, setIsSpecialCondition] = useState(false);
   useEffect(() => {
     // if(id !== undefined) {
     const jid: number = id !== undefined ? +id : 0;
@@ -1445,22 +1446,155 @@ const JobOrderPage = ({
         });
       } else if (!formData.id) {
         actions.addJobOrder(formData);
-        // const result = actions.addJobOrder(formData);
-
-        // console.log("thkkhskdfsadkfsdf", result);
-
+       
         if (formData.id === 0) {
+
+          console.log("printscreen",printscreen)
+   
+            if (printscreen) {
+              handlePrint?.();                  }
+             setPrintscreen(false);
+       
+
+
           setTimeout(() => {
             // History.push("/");
             // alert("done done ");
             // print();
 
-            toast.success("Job order saved successfully");
-            if (printscreen) {
-              handlePrint?.();
-            }
-            setPrintscreen(false);
+            toast.success("Job order saved successfully")
+          
+          
+
+            setFormData({
+              id: 0,
+              builderId: 0,
+              builderName: "",
+              supervisorId: 0,
+              name: "",
+              houseTypeId: 0,
+              address: "",
+              cityId: 0,
+          
+              deliveryDate: "",
+              deliveryTime: "AM",
+              deliveredById: 0,
+              deliveredByName: "",
+          
+              startDate: "",
+              closeDate: "",
+              paintStartDate: "",
+              garageStallId: 0,
+              garageStallName: "",
+              walkthroughDate: "",
+              ceilingFinishId: 0,
+              ceilingFinishName: "",
+              ceilingFinishFogged: "",
+              garageFinishId: 0,
+              garageFinishName: "",
+              cityName: "",
+              electric: 0,
+              heat: 0,
+              basement: 0,
+          
+              up58: 0,
+              upHs: 0,
+              up12: 0,
+              up5412: 0,
+              up5458: 0,
+              main58: 0,
+              mainHs: 0,
+              main12: 0,
+              main5412: 0,
+              main5458: 0,
+              l358: 0,
+              l3Hs: 0,
+              l312: 0,
+              l35412: 0,
+              l35458: 0,
+              g58: 0,
+              gHs: 0,
+              g12: 0,
+              g54: 0,
+              g5412: 0,
+              g5458: 0,
+              house4x12o: 0,
+              garage4x12o: 0,
+          
+              house54: 0,
+              houseOver8: 0,
+              house4x12: 0,
+              garage54: 0,
+              garage96: 0,
+              garage4x12: 0,
+          
+              houseLevels: [
+                {
+                  houseLevelTypeId: 0,
+                  garage: 0,
+                  isFireBarrier: 0,
+                  rowOrder: 1,
+                  billingItems: [
+                    {
+                      billingItemId: 0,
+                      itemValue: "0",
+                      columnOrder: 1,
+                    },
+                    {
+                      billingItemId: appConfig.billingItems.highSheets.id,
+                      itemValue: "0",
+                      columnOrder: 9,
+                    },
+                    {
+                      billingItemId: appConfig.billingItems.garageHighSheets.id,
+                      itemValue: "0",
+                      columnOrder: 10,
+                    },
+                  ],
+                },
+              ],
+          
+              options: [],
+              additionalInfo: "",
+          
+              hangerStartDate: "",
+              hangerEndDate: "",
+              scrapDate: "",
+              taperStartDate: "",
+              taperEndDate: "",
+              sprayerDate: "",
+              sanderDate: "",
+              paintDate: "",
+              fogDate: "",
+          
+              total12: 0,
+              total54: 0,
+              totalOvers: 0,
+              totalGar12: 0,
+              totalGar54: 0,
+              totalGarOvers: 0,
+          
+              totalGarage12: 0,
+              totalGarage54: 0,
+              totalGarageOvers: 0,
+              totalGarageGar12: 0,
+              totalGarageGar54: 0,
+              totalGarageGarOvers: 0,
+          
+              directions: "",
+              jobStatus: "",
+              gigStatus: "",
+          
+              status: 1,
+              isVerified: 0,
+              isPaid: 0,
+              editUnverified: 0,
+
+            });
+            setIsSpecialCondition(true)
+
           }, 1500);
+
         }
       } else {
         console.log("this is form data from updata ", formData);
@@ -1469,12 +1603,15 @@ const JobOrderPage = ({
         History.push("/");
       }
     } else {
+      setIsSpecialCondition(false)
       setJobOrderError(
         "Please fill all the required highlighted fields to SAVE data"
       );
       window.scrollTo(0, 0);
     }
   };
+
+
 
   const closeModal = () => {
     setIsMailModalOpen(false);
@@ -2034,8 +2171,9 @@ const JobOrderPage = ({
                         ref={button1Ref}
                         // onClick={handleButtonClick1, setPrintscreen(true)}
                         onClick={() => {
-                          setPrintscreen(true);
                           handleButtonClick1();
+                          setPrintscreen(true);
+
                         }}
                       >
                         <i className="fas fa-save mr-5 " />
@@ -2144,8 +2282,15 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.builderId ? "ap-required" : ""
+                        // }`}
                         className={`form-control input-sm ${
-                          submitted && !formData.builderId ? "ap-required" : ""
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.builderId
+                            ? "ap-required"
+                            : ""
                         }`}
                         name="builderId"
                         value={formData.builderId || 0}
@@ -2178,8 +2323,16 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
-                        className={`form-control input-sm ${
-                          submitted && !formData.supervisorId
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.supervisorId
+                        //     ? "ap-required"
+                        //     : ""
+                        // }`}
+
+                         className={`form-control input-sm ${
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.supervisorId
                             ? "ap-required"
                             : ""
                         }`}
@@ -2235,8 +2388,17 @@ const JobOrderPage = ({
                             ? selectedHouseTypeId
                             : formData.houseTypeId
                         }
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.houseTypeId
+                        //     ? "ap-required"
+                        //     : ""
+                        // }`}
+
+
                         className={`form-control input-sm ${
-                          submitted && !formData.houseTypeId
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.houseTypeId
                             ? "ap-required"
                             : ""
                         }`}
@@ -2269,8 +2431,16 @@ const JobOrderPage = ({
                         name="address"
                         value={formData.address || ""}
                         onChange={(e) => onFormChange(e)}
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.address ? "ap-required" : ""
+                        // }`}
+
                         className={`form-control input-sm ${
-                          submitted && !formData.address ? "ap-required" : ""
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.address
+                            ? "ap-required"
+                            : ""
                         }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
@@ -2282,8 +2452,15 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.cityId ? "ap-required" : ""
+                        // }`}
                         className={`form-control input-sm ${
-                          submitted && !formData.cityId ? "ap-required" : ""
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.cityId
+                            ? "ap-required"
+                            : ""
                         }`}
                         name="cityId"
                         value={formData.cityId || 0}
@@ -2359,8 +2536,15 @@ const JobOrderPage = ({
                         // className={`form-control ${submitted && !formData.deliveryDate ? 'ap-required' : ''}`}
                         customInput={
                           <DateCustomInput
+                            // customClassName={`form-control input-sm ${
+                            //   submitted && !formData.deliveryDate
+                            //     ? "ap-required"
+                            //     : ""
+                            // }`}
                             customClassName={`form-control input-sm ${
-                              submitted && !formData.deliveryDate
+                              isSpecialCondition
+                                ? ""
+                                : submitted && !formData.deliveryDate
                                 ? "ap-required"
                                 : ""
                             }`}
@@ -2389,8 +2573,16 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.deliveredById
+                        //     ? "ap-required"
+                        //     : ""
+                        // }`}
+
                         className={`form-control input-sm ${
-                          submitted && !formData.deliveredById
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.deliveredById
                             ? "ap-required"
                             : ""
                         }`}
@@ -2448,11 +2640,20 @@ const JobOrderPage = ({
                         // className={`form-control ${submitted && !formData.startDate ? 'ap-required' : ''}`}
                         customInput={
                           <DateCustomInput
+                            // customClassName={`form-control make-disabled input-sm ${
+                            //   submitted && !formData.startDate
+                            //     ? "ap-required"
+                            //     : ""
+                            // }`}
+
+
                             customClassName={`form-control make-disabled input-sm ${
-                              submitted && !formData.startDate
-                                ? "ap-required"
-                                : ""
-                            }`}
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.startDate
+                            ? "ap-required"
+                            : ""
+                        }`}
                           />
                         }
                         onKeyDown={(e) => handleEnter(e)}
@@ -2500,8 +2701,16 @@ const JobOrderPage = ({
                         // className={`form-control ${submitted && !formData.paintStartDate ? 'ap-required' : ''}`}
                         customInput={
                           <DateCustomInput
+                            // customClassName={`form-control make-disabled input-sm ${
+                            //   submitted && !formData.paintStartDate
+                            //     ? "ap-required"
+                            //     : ""
+                            // }`}
+
                             customClassName={`form-control make-disabled input-sm ${
-                              submitted && !formData.paintStartDate
+                              isSpecialCondition
+                                ? ""
+                                : submitted && !formData.paintStartDate
                                 ? "ap-required"
                                 : ""
                             }`}
@@ -2530,8 +2739,16 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.garageStallId
+                        //     ? "ap-required"
+                        //     : ""
+                        // }`}
+
                         className={`form-control input-sm ${
-                          submitted && !formData.garageStallId
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.garageStallId
                             ? "ap-required"
                             : ""
                         }`}
@@ -2589,11 +2806,20 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
+                        // className={`form-control input-sm ${
+                        //   submitted && !formData.ceilingFinishId
+                        //     ? "ap-required"
+                        //     : ""
+                        // }`}
+
                         className={`form-control input-sm ${
-                          submitted && !formData.ceilingFinishId
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.ceilingFinishId
                             ? "ap-required"
                             : ""
                         }`}
+                        
                         name="ceilingFinishId"
                         value={formData.ceilingFinishId || 0}
                         onChange={(e) => onCeilingFinishChange(e)}
@@ -2624,8 +2850,12 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
+                     
+
                         className={`form-control input-sm ${
-                          submitted && !formData.garageFinishId
+                          isSpecialCondition
+                            ? ""
+                            : submitted && !formData.garageFinishId
                             ? "ap-required"
                             : ""
                         }`}
@@ -2704,11 +2934,7 @@ const JobOrderPage = ({
                 <h4 className="text_blue">Sheet Rock Stock House</h4>
                 <div className="clear pad-5" />
                 <div className="row">
-                  {/* {billingItemsData.length > 0 ? billingItemsData.map((item: any, index: any) => (
-                    <div key={index} className={index > 0 ? 'col-md-2 text-center' : 'col-md-offset-2 col-md-2 text-center'}>
-                      <h5>{item.billingItemName}</h5>
-                    </div>
-                  )) : (<></>)} */}
+                 
 
                   {renderBillingItemsSelectList()}
                   <div className="clear pad-5" />
@@ -3321,7 +3547,7 @@ const JobOrderPage = ({
                         ref={button2Ref}
                       >
                         <i className="fas fa-save mr-5" />
-                        Save & Print JIO
+                        Save & Print JIO 
                       </button>
                     ) : (
                       <button
