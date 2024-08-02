@@ -82,6 +82,22 @@ const AddHousetypedetails = ({
 
   const closeModal = () => {
     setModalIsOpen(false);
+    // var selectElement11 = document.querySelector('.form-control.input-sm.hello1');
+    // if (selectElement11) {
+    //     selectElement11.value = '0'; // or set to the value of your default option
+    // }
+
+    
+    
+              // Use type assertion to specify that the element is an HTMLSelectElement
+              const selectElement11 = document.querySelector('.form-control.input-sm.hello1') as HTMLSelectElement;
+              console.log('hello',selectElement11);
+              if (selectElement11) {
+                console.log('hello2',selectElement11);
+                  selectElement11.value = '0'; // Ensure this matches the value of your default option
+                  selectElement11.dispatchEvent(new Event('change')); // Optional: Trigger change event
+              }
+  
   };
 
   type DataView = {
@@ -475,6 +491,7 @@ const AddHousetypedetails = ({
         const x = { ...jobOrders.activeJobOrder };
         x.houseLevels = defaultState.houseLevels;
         setFormData({ ...defaultState, ...x });
+       
       } else {
         const x = { ...jobOrders.activeJobOrder };
         const y = x.houseLevels.map((item: any) => {
@@ -1368,7 +1385,7 @@ const AddHousetypedetails = ({
     return (
       <>
         <select
-          className="form-control input-sm"
+          className="form-control input-sm "
           name="ddLabel1"
           // defaultValue="0"
           value={getSelectedBillingItem(index)}
@@ -1440,9 +1457,10 @@ const AddHousetypedetails = ({
 
     return (
       <select
-        className="form-control input-sm"
+        className="form-control input-sm hello1"
         name="ddLabel1"
-        value={value || getSelectedHouseLevelType(index)}
+        value={value}
+        // value={value || getSelectedHouseLevelType(index)}
         onChange={(e) => onItemSelectChange(e, "house_level_type", index)}
         onKeyDown={(e) => handleEnter(e)}
       >
@@ -1745,19 +1763,24 @@ const AddHousetypedetails = ({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       if (response.ok) {
+
         closeModal();
+        
       }
       const result = await response.json();
       console.log("Success:", result);
 
+      
       // Ensure fetchData is defined somewhere in your code
       if (typeof fetchData === "function") {
         fetchData();
       } else {
         console.warn("fetchData function is not defined");
+        
       }
     } catch (error) {
       console.error("Error:", error);
+     
     }
   };
 
@@ -2050,12 +2073,12 @@ const AddHousetypedetails = ({
                         <td>{item?.garage_finish_name}</td>
                         <td>{item?.ceiling_finish_name}</td>
                         <td>
-                          {/* <button
+                        <button
                             className="btn btn-danger btn-sm mr-5"
                             onClick={() => handleDeleteGet(item.id)}
                           >
                             Delete
-                          </button> */}
+                          </button> 
                           <button
                             className="btn btn-primary btn-sm mr-5"
                             onClick={() => handleViewData(item.id)}
