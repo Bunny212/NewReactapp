@@ -2073,12 +2073,12 @@ const AddHousetypedetails = ({
                         <td>{item?.garage_finish_name}</td>
                         <td>{item?.ceiling_finish_name}</td>
                         <td>
-                        <button
+                        {/* <button
                             className="btn btn-danger btn-sm mr-5"
                             onClick={() => handleDeleteGet(item.id)}
                           >
                             Delete
-                          </button> 
+                          </button>  */}
                           <button
                             className="btn btn-primary btn-sm mr-5"
                             onClick={() => handleViewData(item.id)}
