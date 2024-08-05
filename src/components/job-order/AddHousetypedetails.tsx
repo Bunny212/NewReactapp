@@ -87,18 +87,26 @@ const AddHousetypedetails = ({
     //     selectElement11.value = '0'; // or set to the value of your default option
     // }
 
-    
-    
-              // Use type assertion to specify that the element is an HTMLSelectElement
-              const selectElement11 = document.querySelector('.form-control.input-sm.hello1') as HTMLSelectElement;
-              console.log('hello',selectElement11);
-              if (selectElement11) {
-                console.log('hello2',selectElement11);
-                  selectElement11.value = '0'; // Ensure this matches the value of your default option
-                  selectElement11.dispatchEvent(new Event('change')); // Optional: Trigger change event
-              }
-  
+
+
+    // Use type assertion to specify that the element is an HTMLSelectElement
+    const selectElement11 = document.querySelector('.form-control.input-sm.hello1') as HTMLSelectElement;
+    console.log('hello', selectElement11);
+    if (selectElement11) {
+      console.log('hello2', selectElement11);
+      selectElement11.value = '0'; // Ensure this matches the value of your default option
+      selectElement11.dispatchEvent(new Event('change')); // Optional: Trigger change event
+    }
+
   };
+
+  const [selectedValue, setSelectedValue] = useState<string>('true');
+
+  // Handler to update the selected value
+  const handleChange = (event: any) => {
+    setSelectedValue(event.target.value);
+  };
+
 
   type DataView = {
     id: number;
@@ -250,6 +258,7 @@ const AddHousetypedetails = ({
   };
   const handleViewData = async (id: number) => {
     // Explicitly specify the type of 'id' as 'number'
+    console.log("iddddddddddddddddd", id)
     try {
       const requestOptions = {
         method: "GET",
@@ -290,6 +299,10 @@ const AddHousetypedetails = ({
         // .split(", ")
         // .map((name: any) => ({ name })) as { name: string }[],
       }));
+
+      setSelectedValue(result.data.status)
+
+      console.log("editttttttttttttttttttt", result.data.status)
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -491,7 +504,7 @@ const AddHousetypedetails = ({
         const x = { ...jobOrders.activeJobOrder };
         x.houseLevels = defaultState.houseLevels;
         setFormData({ ...defaultState, ...x });
-       
+
       } else {
         const x = { ...jobOrders.activeJobOrder };
         const y = x.houseLevels.map((item: any) => {
@@ -1748,7 +1761,11 @@ const AddHousetypedetails = ({
           ? formdata.totalGarage54.toString()
           : "",
       options_available: resultString,
+      status: selectedValue,
     };
+
+
+    console.log("selectedValue", selectedValue)
 
     try {
       const response = await fetch(url, {
@@ -1765,22 +1782,22 @@ const AddHousetypedetails = ({
       if (response.ok) {
 
         closeModal();
-        
+
       }
       const result = await response.json();
       console.log("Success:", result);
 
-      
+
       // Ensure fetchData is defined somewhere in your code
       if (typeof fetchData === "function") {
         fetchData();
       } else {
         console.warn("fetchData function is not defined");
-        
+
       }
     } catch (error) {
       console.error("Error:", error);
-     
+
     }
   };
 
@@ -1826,6 +1843,7 @@ const AddHousetypedetails = ({
                 ? formdata.totalGarage54.toString()
                 : "",
             options_available: resultString,
+            status: selectedValue
           }),
         }
       );
@@ -1903,7 +1921,7 @@ const AddHousetypedetails = ({
             },
             {
               label: "No",
-              onClick: () => {},
+              onClick: () => { },
             },
           ],
         });
@@ -2073,12 +2091,12 @@ const AddHousetypedetails = ({
                         <td>{item?.garage_finish_name}</td>
                         <td>{item?.ceiling_finish_name}</td>
                         <td>
-                        {/* <button
+                          <button
                             className="btn btn-danger btn-sm mr-5"
                             onClick={() => handleDeleteGet(item.id)}
                           >
                             Delete
-                          </button>  */}
+                          </button>
                           <button
                             className="btn btn-primary btn-sm mr-5"
                             onClick={() => handleViewData(item.id)}
@@ -2141,13 +2159,13 @@ const AddHousetypedetails = ({
                       !formData.isVerified &&
                       formData.id
                     ) && (
-                      <div className="row">
-                        <div className="form-group col-md-6 mb-10" />
-                        <div className="form-group col-md-6 mb-10">
-                          <label className="col-md-3 control-label">
-                            <span className="text_red" />
-                          </label>
-                          {/* <label className="checkbox-inline verifyCls">
+                        <div className="row">
+                          <div className="form-group col-md-6 mb-10" />
+                          <div className="form-group col-md-6 mb-10">
+                            <label className="col-md-3 control-label">
+                              <span className="text_red" />
+                            </label>
+                            {/* <label className="checkbox-inline verifyCls">
                           <input
                             type="checkbox"
                             name="notVerified"
@@ -2157,9 +2175,9 @@ const AddHousetypedetails = ({
                           />
                           Un-Verified
                         </label> */}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
                     {!!(formData.builderId && formData.isVerified) && (
                       <div className="row">
                         <div className="form-group col-md-6 mb-10" />
@@ -2186,12 +2204,17 @@ const AddHousetypedetails = ({
                         </div>
                       </div>
                     )}
+
+
+
+
                     <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
                       }}
                     >
+
                       <h4 className="text_blue">Builder Details</h4>
                       <h6 style={{ cursor: "pointer" }} onClick={closeModal}>
                         X
@@ -2206,11 +2229,10 @@ const AddHousetypedetails = ({
                         </label>
                         <div className="col-md-9">
                           <select
-                            className={`form-control input-sm ${
-                              submitted && !formData.builderId
-                                ? "ap-required"
-                                : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.builderId
+                              ? "ap-required"
+                              : ""
+                              }`}
                             name="builderId"
                             value={formData.builderId || 0}
                             onChange={(e) => onFormChange(e)}
@@ -2236,6 +2258,42 @@ const AddHousetypedetails = ({
                           </select>
                         </div>
                       </div>
+
+
+                      <div className="form-group col-md-6 mb-10">
+                        <label className="col-md-3 control-label">
+                        House Type Status :<span className="text_red">*</span>
+                        </label>
+                        <div className="col-md-9">
+                        <select style={{ marginLeft: '10px' }} className={`form-control input-sm }`} 
+                          value={selectedValue} onChange={handleChange}>
+                            <option value="true">Active</option>
+                            <option value="false">Not Active</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      {/* <div className="row">
+                      <div className="col-md-3">
+                        <div
+                          style={{
+                            display: "flex",
+                            verticalAlign:'center'
+
+                          }}
+                        >
+                         <label className="col-md-3 control-label">
+                          Status:<span className="text_red">*</span>
+                        </label>
+                          <select style={{ marginLeft: '10px' }} className={`form-control input-sm }`} 
+                          value={selectedValue} onChange={handleChange}>
+                            <option value="true">Active</option>
+                            <option value="false">Not Active</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div> */}
                       <div className="form-group col-md-6 mb-10">
                         <label className="col-md-3 control-label">
                           House Type :<span className="text_red">*</span>
@@ -2278,22 +2336,22 @@ const AddHousetypedetails = ({
                           }`}
                           onKeyDown={(e) => handleEnter(e)}
                         /> */}
+
                           <input
                             type="text"
                             value={Housetypedata}
                             name="House Type"
                             onChange={(e) => ontextchange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.builderId
-                                ? "ap-required"
-                                : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.builderId
+                              ? "ap-required"
+                              : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                           />
                         </div>
                       </div>
                     </div>
-                    <div className="row"></div>
+                    
                     <div className="row">
                       {/* <div className="form-group col-md-6 mb-10">
                       <label className="col-md-3 control-label">
@@ -2358,11 +2416,10 @@ const AddHousetypedetails = ({
                         </label>
                         <div className="col-md-9">
                           <select
-                            className={`form-control input-sm ${
-                              submitted && !formData.garageStallId
-                                ? "ap-required"
-                                : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.garageStallId
+                              ? "ap-required"
+                              : ""
+                              }`}
                             name="garageStallId"
                             value={formData.garageStallId || 0}
                             onChange={(e) => onFormChange(e)}
@@ -2394,11 +2451,10 @@ const AddHousetypedetails = ({
                         </label>
                         <div className="col-md-9">
                           <select
-                            className={`form-control input-sm ${
-                              submitted && !formData.ceilingFinishId
-                                ? "ap-required"
-                                : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.ceilingFinishId
+                              ? "ap-required"
+                              : ""
+                              }`}
                             name="ceilingFinishId"
                             value={formData.ceilingFinishId || 0}
                             onChange={(e) => onCeilingFinishChange(e)}
@@ -2429,11 +2485,10 @@ const AddHousetypedetails = ({
                         </label>
                         <div className="col-md-9">
                           <select
-                            className={`form-control input-sm ${
-                              submitted && !formData.garageFinishId
-                                ? "ap-required"
-                                : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.garageFinishId
+                              ? "ap-required"
+                              : ""
+                              }`}
                             name="garageFinishId"
                             value={formData.garageFinishId || 0}
                             onChange={(e) => onFormChange(e)}
@@ -2632,9 +2687,8 @@ const AddHousetypedetails = ({
                             name="total12"
                             value={formData.total12 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.total12 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.total12 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                           />
                         </div>
@@ -2650,9 +2704,8 @@ const AddHousetypedetails = ({
                             name="total54"
                             value={formData.total54 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.total54 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.total54 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                           />
                         </div>
@@ -2684,9 +2737,8 @@ const AddHousetypedetails = ({
                             name="totalGar12"
                             value={formData.totalGar12 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalGar12 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalGar12 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                             readOnly
                           />
@@ -2703,9 +2755,8 @@ const AddHousetypedetails = ({
                             name="totalGar54"
                             value={formData.totalGar54 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalGar54 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalGar54 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                             readOnly
                           />
@@ -2722,9 +2773,8 @@ const AddHousetypedetails = ({
                             name="totalOvers"
                             value={formData.totalOvers || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalOvers ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalOvers ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                             readOnly
                           />
@@ -2744,9 +2794,8 @@ const AddHousetypedetails = ({
                             name="totalGarage12"
                             value={formData.totalGarage12 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalGarage12 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalGarage12 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                           />
                         </div>
@@ -2762,9 +2811,8 @@ const AddHousetypedetails = ({
                             name="totalGarage54"
                             value={formData.totalGarage54 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalGarage54 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalGarage54 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                           />
                         </div>
@@ -2796,9 +2844,8 @@ const AddHousetypedetails = ({
                             name="totalGarageGar12"
                             value={formData.totalGarageGar12 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalGarageGar12 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalGarageGar12 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                             readOnly
                           />
@@ -2815,9 +2862,8 @@ const AddHousetypedetails = ({
                             name="totalGarageGar54"
                             value={formData.totalGarageGar54 || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalGarageGar54 ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalGarageGar54 ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                             readOnly
                           />
@@ -2834,9 +2880,8 @@ const AddHousetypedetails = ({
                             name="totalGarageOvers"
                             value={formData.totalGarageOvers || 0}
                             onChange={(e) => onFormNumberChange(e)}
-                            className={`form-control input-sm ${
-                              submitted && !formData.totalGarageOvers ? "" : ""
-                            }`}
+                            className={`form-control input-sm ${submitted && !formData.totalGarageOvers ? "" : ""
+                              }`}
                             onKeyDown={(e) => handleEnter(e)}
                             readOnly
                           />

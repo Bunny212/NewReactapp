@@ -1945,6 +1945,45 @@ const JobOrderPage = ({
   //   }
   // };
 
+  // var fetchData = async () => {
+  //   try {
+  //     const requestOptions = {
+  //       method: "GET",
+  //     };
+  //     const response = await fetch(
+  //       "https://2fd82c9861.nxcli.io/sdi-api/house-type-new",
+  //       requestOptions
+  //     );
+  //     var result = await response.json();
+  //     console.log("result", result);
+
+  //     const sortedData = result.data.sort((a: any, b: any) => {
+  //       // Check if the house_type_value starts with a number
+  //       const startsWithNumberA = /^\d/.test(a.house_type_value);
+  //       const startsWithNumberB = /^\d/.test(b.house_type_value);
+
+  //       // If one starts with a number and the other doesn't, sort accordingly
+  //       if (startsWithNumberA && !startsWithNumberB) {
+  //         return -1;
+  //       }
+  //       if (!startsWithNumberA && startsWithNumberB) {
+  //         return 1;
+  //       }
+
+  //       // If both start with a number or both don't, sort by house_type_value alphabetically
+  //       const houseTypeValueA = a.house_type_value.toLowerCase();
+  //       const houseTypeValueB = b.house_type_value.toLowerCase();
+  //       return houseTypeValueA.localeCompare(houseTypeValueB);
+  //     });
+
+  //     // Set the sorted data to state
+  //     // setResponseData(sortedData);
+  //     Sethousetypelist(sortedData);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
   var fetchData = async () => {
     try {
       const requestOptions = {
@@ -1956,12 +1995,16 @@ const JobOrderPage = ({
       );
       var result = await response.json();
       console.log("result", result);
-
-      const sortedData = result.data.sort((a: any, b: any) => {
+  
+      // Filter the data to exclude items where status is false (or 0)
+      const filteredData = result.data.filter((item: any) => item.status === true)
+  
+      // Sort the filtered data
+      const sortedData = filteredData.sort((a: any, b: any) => {
         // Check if the house_type_value starts with a number
         const startsWithNumberA = /^\d/.test(a.house_type_value);
         const startsWithNumberB = /^\d/.test(b.house_type_value);
-
+  
         // If one starts with a number and the other doesn't, sort accordingly
         if (startsWithNumberA && !startsWithNumberB) {
           return -1;
@@ -1969,20 +2012,20 @@ const JobOrderPage = ({
         if (!startsWithNumberA && startsWithNumberB) {
           return 1;
         }
-
+  
         // If both start with a number or both don't, sort by house_type_value alphabetically
         const houseTypeValueA = a.house_type_value.toLowerCase();
         const houseTypeValueB = b.house_type_value.toLowerCase();
         return houseTypeValueA.localeCompare(houseTypeValueB);
       });
-
+  
       // Set the sorted data to state
-      // setResponseData(sortedData);
       Sethousetypelist(sortedData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+  
 
   useEffect(() => {
     fetchData(); // Fetch data when component mounts
@@ -2407,9 +2450,11 @@ const JobOrderPage = ({
                           selectedHouseTypeId
                         )} */}
                         <option value="">Select House Type</option>
+                
                         {housetypelist.map((houseType) => (
                           <option key={houseType.id} value={houseType.id}>
                             {houseType.house_type_value}{" "}
+                        
                             {/* Display the correct property in the options */}
                           </option>
                         ))}
