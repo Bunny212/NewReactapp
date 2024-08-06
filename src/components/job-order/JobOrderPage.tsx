@@ -1371,6 +1371,8 @@ const JobOrderPage = ({
     alert("so what");
   };
 
+
+
   const handlePrintSubmit = () => {
     // e.preventDefault();
 
@@ -1440,21 +1442,23 @@ const JobOrderPage = ({
             },
             {
               label: "No",
-              onClick: () => {},
+              onClick: () => { },
             },
           ],
         });
       } else if (!formData.id) {
         actions.addJobOrder(formData);
-       
+
         if (formData.id === 0) {
 
-        
-            if (printscreen) {
-              handlePrint?.();                  }
-             setPrintscreen(false);
-       
+          // setTimeout(() => {
 
+          //   console.log("printscreenprintscreenprintscreenprintscreen22", printscreen)
+          //   if (printscreen) {
+          //     handlePrint?.();
+          //     setPrintscreen(false);
+          //   }
+          // }, 1000);
 
           setTimeout(() => {
             // History.push("/");
@@ -1462,8 +1466,8 @@ const JobOrderPage = ({
             // print();
 
             toast.success("Job order saved successfully")
-          
-          
+
+
 
             setFormData({
               id: 0,
@@ -1474,12 +1478,12 @@ const JobOrderPage = ({
               houseTypeId: 0,
               address: "",
               cityId: 0,
-          
+
               deliveryDate: "",
               deliveryTime: "AM",
               deliveredById: 0,
               deliveredByName: "",
-          
+
               startDate: "",
               closeDate: "",
               paintStartDate: "",
@@ -1495,7 +1499,7 @@ const JobOrderPage = ({
               electric: 0,
               heat: 0,
               basement: 0,
-          
+
               up58: 0,
               upHs: 0,
               up12: 0,
@@ -1519,14 +1523,14 @@ const JobOrderPage = ({
               g5458: 0,
               house4x12o: 0,
               garage4x12o: 0,
-          
+
               house54: 0,
               houseOver8: 0,
               house4x12: 0,
               garage54: 0,
               garage96: 0,
               garage4x12: 0,
-          
+
               houseLevels: [
                 {
                   houseLevelTypeId: 0,
@@ -1552,10 +1556,10 @@ const JobOrderPage = ({
                   ],
                 },
               ],
-          
+
               options: [],
               additionalInfo: "",
-          
+
               hangerStartDate: "",
               hangerEndDate: "",
               scrapDate: "",
@@ -1565,25 +1569,25 @@ const JobOrderPage = ({
               sanderDate: "",
               paintDate: "",
               fogDate: "",
-          
+
               total12: 0,
               total54: 0,
               totalOvers: 0,
               totalGar12: 0,
               totalGar54: 0,
               totalGarOvers: 0,
-          
+
               totalGarage12: 0,
               totalGarage54: 0,
               totalGarageOvers: 0,
               totalGarageGar12: 0,
               totalGarageGar54: 0,
               totalGarageGarOvers: 0,
-          
+
               directions: "",
               jobStatus: "",
               gigStatus: "",
-          
+
               status: 1,
               isVerified: 0,
               isPaid: 0,
@@ -1829,6 +1833,21 @@ const JobOrderPage = ({
   const [houseTypeModalFormData, setHouseTypeModalFormData] = useState(
     defaultHouseTypeModalState
   );
+
+
+  useEffect(()=>{
+
+    setTimeout(() => {
+
+      console.log("printscreenprintscreenprintscreenprintscreen22", printscreen)
+      if (printscreen) {
+        handlePrint?.();
+        setPrintscreen(false);
+      }
+    }, 1000);
+
+  },[printscreen])
+
   const [housLevelModalSubmitted, setHousLevelModalSubmitted] = useState(false);
   const closeHouseLevelModal = () => {
     setHouseTypeModalFormData({
@@ -1995,16 +2014,16 @@ const JobOrderPage = ({
       );
       var result = await response.json();
       console.log("result", result);
-  
+
       // Filter the data to exclude items where status is false (or 0)
       const filteredData = result.data.filter((item: any) => item.status === true)
-  
+
       // Sort the filtered data
       const sortedData = filteredData.sort((a: any, b: any) => {
         // Check if the house_type_value starts with a number
         const startsWithNumberA = /^\d/.test(a.house_type_value);
         const startsWithNumberB = /^\d/.test(b.house_type_value);
-  
+
         // If one starts with a number and the other doesn't, sort accordingly
         if (startsWithNumberA && !startsWithNumberB) {
           return -1;
@@ -2012,20 +2031,20 @@ const JobOrderPage = ({
         if (!startsWithNumberA && startsWithNumberB) {
           return 1;
         }
-  
+
         // If both start with a number or both don't, sort by house_type_value alphabetically
         const houseTypeValueA = a.house_type_value.toLowerCase();
         const houseTypeValueB = b.house_type_value.toLowerCase();
         return houseTypeValueA.localeCompare(houseTypeValueB);
       });
-  
+
       // Set the sorted data to state
       Sethousetypelist(sortedData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
+
 
   useEffect(() => {
     fetchData(); // Fetch data when component mounts
@@ -2211,7 +2230,6 @@ const JobOrderPage = ({
                         className="btn btn-primary btn-sm"
                         onKeyDown={(e) => handleEnter(e)}
                         ref={button1Ref}
-                        // onClick={handleButtonClick1, setPrintscreen(true)}
                         onClick={() => {
                           handleButtonClick1();
                           setPrintscreen(true);
@@ -2222,13 +2240,13 @@ const JobOrderPage = ({
                         Save & Print JIO
                       </button>
 
+                      {console.log("printscreenprintscreenprintscreen111 ", printscreen)}
                       <NavLink className="text-white" to="/AddHousetypedetails">
                         <button
                           type="button"
                           className="btn btn-primary btn-sm ml-5"
                           onKeyDown={(e) => handleEnter(e)}
                           ref={button1Ref}
-                          onClick={handleButtonClick1}
                         >
                           Add House Type
                         </button>
@@ -2266,25 +2284,25 @@ const JobOrderPage = ({
                   !formData.isVerified &&
                   formData.id
                 ) && (
-                  <div className="row">
-                    <div className="form-group col-md-6 mb-10" />
-                    <div className="form-group col-md-6 mb-10">
-                      <label className="col-md-3 control-label">
-                        <span className="text_red" />
-                      </label>
-                      <label className="checkbox-inline verifyCls">
-                        <input
-                          type="checkbox"
-                          name="notVerified"
-                          value="1"
-                          disabled
-                          checked
-                        />
-                        Un-Verified
-                      </label>
+                    <div className="row">
+                      <div className="form-group col-md-6 mb-10" />
+                      <div className="form-group col-md-6 mb-10">
+                        <label className="col-md-3 control-label">
+                          <span className="text_red" />
+                        </label>
+                        <label className="checkbox-inline verifyCls">
+                          <input
+                            type="checkbox"
+                            name="notVerified"
+                            value="1"
+                            disabled
+                            checked
+                          />
+                          Un-Verified
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
                 {!!(formData.builderId && formData.isVerified) && (
                   <div className="row">
                     <div className="form-group col-md-6 mb-10" />
@@ -2327,13 +2345,12 @@ const JobOrderPage = ({
                         // className={`form-control input-sm ${
                         //   submitted && !formData.builderId ? "ap-required" : ""
                         // }`}
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.builderId
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                         name="builderId"
                         value={formData.builderId || 0}
                         onChange={(e) => onFormChange(e)}
@@ -2371,13 +2388,12 @@ const JobOrderPage = ({
                         //     : ""
                         // }`}
 
-                         className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.supervisorId
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                         name="supervisorId"
                         value={formData.supervisorId || 0}
                         onChange={(e) => onFormChange(e)}
@@ -2407,9 +2423,8 @@ const JobOrderPage = ({
                         name="name"
                         value={formData.name || ""}
                         onChange={(e) => onFormChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.name ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.name ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                     </div>
@@ -2437,24 +2452,23 @@ const JobOrderPage = ({
                         // }`}
 
 
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.houseTypeId
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                       >
                         {/* {console.log(
                           "selectedHouseTypeId",
                           selectedHouseTypeId
                         )} */}
                         <option value="">Select House Type</option>
-                
+
                         {housetypelist.map((houseType) => (
                           <option key={houseType.id} value={houseType.id}>
                             {houseType.house_type_value}{" "}
-                        
+
                             {/* Display the correct property in the options */}
                           </option>
                         ))}
@@ -2479,13 +2493,12 @@ const JobOrderPage = ({
                         //   submitted && !formData.address ? "ap-required" : ""
                         // }`}
 
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.address
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                     </div>
@@ -2499,13 +2512,12 @@ const JobOrderPage = ({
                         // className={`form-control input-sm ${
                         //   submitted && !formData.cityId ? "ap-required" : ""
                         // }`}
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.cityId
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                         name="cityId"
                         value={formData.cityId || 0}
                         onChange={(e) => onFormChange(e)}
@@ -2585,13 +2597,12 @@ const JobOrderPage = ({
                             //     ? "ap-required"
                             //     : ""
                             // }`}
-                            customClassName={`form-control input-sm ${
-                              isSpecialCondition
+                            customClassName={`form-control input-sm ${isSpecialCondition
                                 ? ""
                                 : submitted && !formData.deliveryDate
-                                ? "ap-required"
-                                : ""
-                            }`}
+                                  ? "ap-required"
+                                  : ""
+                              }`}
                           />
                         }
                         onKeyDown={(e) => handleEnter(e)}
@@ -2623,13 +2634,12 @@ const JobOrderPage = ({
                         //     : ""
                         // }`}
 
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.deliveredById
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                         name="deliveredById"
                         value={formData.deliveredById || 0}
                         // onChange={handleDropdownChange}
@@ -2691,13 +2701,12 @@ const JobOrderPage = ({
                             // }`}
 
 
-                            customClassName={`form-control make-disabled input-sm ${
-                          isSpecialCondition
-                            ? ""
-                            : submitted && !formData.startDate
-                            ? "ap-required"
-                            : ""
-                        }`}
+                            customClassName={`form-control make-disabled input-sm ${isSpecialCondition
+                                ? ""
+                                : submitted && !formData.startDate
+                                  ? "ap-required"
+                                  : ""
+                              }`}
                           />
                         }
                         onKeyDown={(e) => handleEnter(e)}
@@ -2751,13 +2760,12 @@ const JobOrderPage = ({
                             //     : ""
                             // }`}
 
-                            customClassName={`form-control make-disabled input-sm ${
-                              isSpecialCondition
+                            customClassName={`form-control make-disabled input-sm ${isSpecialCondition
                                 ? ""
                                 : submitted && !formData.paintStartDate
-                                ? "ap-required"
-                                : ""
-                            }`}
+                                  ? "ap-required"
+                                  : ""
+                              }`}
                           />
                         }
                       />
@@ -2789,13 +2797,12 @@ const JobOrderPage = ({
                         //     : ""
                         // }`}
 
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.garageStallId
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                         name="garageStallId"
                         value={formData.garageStallId || 0}
                         onChange={(e) => onFormChange(e)}
@@ -2856,14 +2863,13 @@ const JobOrderPage = ({
                         //     : ""
                         // }`}
 
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.ceilingFinishId
-                            ? "ap-required"
-                            : ""
-                        }`}
-                        
+                              ? "ap-required"
+                              : ""
+                          }`}
+
                         name="ceilingFinishId"
                         value={formData.ceilingFinishId || 0}
                         onChange={(e) => onCeilingFinishChange(e)}
@@ -2894,15 +2900,14 @@ const JobOrderPage = ({
                     </label>
                     <div className="col-md-9">
                       <select
-                     
 
-                        className={`form-control input-sm ${
-                          isSpecialCondition
+
+                        className={`form-control input-sm ${isSpecialCondition
                             ? ""
                             : submitted && !formData.garageFinishId
-                            ? "ap-required"
-                            : ""
-                        }`}
+                              ? "ap-required"
+                              : ""
+                          }`}
                         name="garageFinishId"
                         value={formData.garageFinishId || 0}
                         onChange={(e) => onFormChange(e)}
@@ -2935,9 +2940,8 @@ const JobOrderPage = ({
                         name="electric"
                         checked={!!formData.electric}
                         onChange={(e) => onCheckboxChange(e)}
-                        className={`${
-                          submitted && !formData.electric ? "" : ""
-                        }`}
+                        className={`${submitted && !formData.electric ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                       Electrical Svc Hooked Up
@@ -2963,9 +2967,8 @@ const JobOrderPage = ({
                         name="basement"
                         checked={!!formData.basement}
                         onChange={(e) => onCheckboxChange(e)}
-                        className={`${
-                          submitted && !formData.basement ? "" : ""
-                        }`}
+                        className={`${submitted && !formData.basement ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                       Basement
@@ -2978,7 +2981,7 @@ const JobOrderPage = ({
                 <h4 className="text_blue">Sheet Rock Stock House</h4>
                 <div className="clear pad-5" />
                 <div className="row">
-                 
+
 
                   {renderBillingItemsSelectList()}
                   <div className="clear pad-5" />
@@ -3093,9 +3096,8 @@ const JobOrderPage = ({
                         name="total12"
                         value={formData.total12 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.total12 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.total12 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                     </div>
@@ -3111,9 +3113,8 @@ const JobOrderPage = ({
                         name="total54"
                         value={formData.total54 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.total54 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.total54 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                     </div>
@@ -3145,9 +3146,8 @@ const JobOrderPage = ({
                         name="totalGar12"
                         value={formData.totalGar12 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalGar12 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalGar12 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                         readOnly
                       />
@@ -3164,9 +3164,8 @@ const JobOrderPage = ({
                         name="totalGar54"
                         value={formData.totalGar54 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalGar54 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalGar54 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                         readOnly
                       />
@@ -3183,9 +3182,8 @@ const JobOrderPage = ({
                         name="totalOvers"
                         value={formData.totalOvers || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalOvers ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalOvers ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                         readOnly
                       />
@@ -3205,9 +3203,8 @@ const JobOrderPage = ({
                         name="totalGarage12"
                         value={formData.totalGarage12 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalGarage12 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalGarage12 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                     </div>
@@ -3223,9 +3220,8 @@ const JobOrderPage = ({
                         name="totalGarage54"
                         value={formData.totalGarage54 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalGarage54 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalGarage54 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
                     </div>
@@ -3257,9 +3253,8 @@ const JobOrderPage = ({
                         name="totalGarageGar12"
                         value={formData.totalGarageGar12 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalGarageGar12 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalGarageGar12 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                         readOnly
                       />
@@ -3276,9 +3271,8 @@ const JobOrderPage = ({
                         name="totalGarageGar54"
                         value={formData.totalGarageGar54 || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalGarageGar54 ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalGarageGar54 ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                         readOnly
                       />
@@ -3295,9 +3289,8 @@ const JobOrderPage = ({
                         name="totalGarageOvers"
                         value={formData.totalGarageOvers || 0}
                         onChange={(e) => onFormNumberChange(e)}
-                        className={`form-control input-sm ${
-                          submitted && !formData.totalGarageOvers ? "" : ""
-                        }`}
+                        className={`form-control input-sm ${submitted && !formData.totalGarageOvers ? "" : ""
+                          }`}
                         onKeyDown={(e) => handleEnter(e)}
                         readOnly
                       />
@@ -3591,7 +3584,7 @@ const JobOrderPage = ({
                         ref={button2Ref}
                       >
                         <i className="fas fa-save mr-5" />
-                        Save & Print JIO 
+                        Save
                       </button>
                     ) : (
                       <button
@@ -3739,9 +3732,8 @@ const JobOrderPage = ({
                 type="text"
                 name="emailTo"
                 onChange={(e) => onMailFormChange(e)}
-                className={`form-control input-sm ${
-                  mailSubmitted && !mailFormData.emailTo ? "ap-required" : ""
-                }`}
+                className={`form-control input-sm ${mailSubmitted && !mailFormData.emailTo ? "ap-required" : ""
+                  }`}
               />
             </div>
             <div className="clear pad-15" />
@@ -3751,11 +3743,10 @@ const JobOrderPage = ({
                 rows={5}
                 name="emailMessage"
                 onChange={(e) => onMailFormChange(e)}
-                className={`form-control input-sm ${
-                  mailSubmitted && !mailFormData.emailMessage
+                className={`form-control input-sm ${mailSubmitted && !mailFormData.emailMessage
                     ? "ap-required"
                     : ""
-                }`}
+                  }`}
               />
             </div>
           </div>
@@ -3799,11 +3790,10 @@ const JobOrderPage = ({
                   name="name"
                   value={houseTypeModalFormData.name || ""}
                   onChange={(e) => onHouseTypeFormChange(e)}
-                  className={`form-control input-sm ${
-                    housLevelModalSubmitted && !houseTypeModalFormData.name
+                  className={`form-control input-sm ${housLevelModalSubmitted && !houseTypeModalFormData.name
                       ? "ap-required"
                       : ""
-                  }`}
+                    }`}
                 />
               </div>
             </div>

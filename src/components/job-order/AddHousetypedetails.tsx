@@ -2099,7 +2099,7 @@ const AddHousetypedetails = ({
                           color: "#FFF"
                         }}
                         >
-                          {item.status === 'true' || item.status === true ? 'Active' : 'Not Active'}
+                          {item.status === 'true' || item.status === true ? 'Active' : 'Deactivate'}
                         </td>
                         <td>
                           {/* <button
@@ -2279,7 +2279,7 @@ const AddHousetypedetails = ({
                           <select style={{ marginLeft: '10px' }} className={`form-control input-sm }`}
                             value={selectedValue} onChange={handleChange}>
                             <option value="true">Active</option>
-                            <option value="false">Not Active</option>
+                            <option value="false">Deactivate</option>
                           </select>
                         </div>
                       </div>
