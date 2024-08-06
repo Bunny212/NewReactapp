@@ -2079,24 +2079,29 @@ const AddHousetypedetails = ({
                       <th>Garage Stalls</th>
                       <th>Garage Finish</th>
                       <th>Ceiling Finish</th>
+                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {console.log("responseData", responseData)}
                     {responseData.map((item: any, index: number) => (
-                      <tr key={index}>
+
+                     <tr key={index}>
+                     
                         <td>{item?.builder_value}</td>
                         <td>{item?.house_type_value}</td>
                         <td>{item?.garage_stalls_value}</td>
                         <td>{item?.garage_finish_name}</td>
                         <td>{item?.ceiling_finish_name}</td>
+                        {/* <td>{item.status}</td> */}
                         <td>
-                          <button
+                          {/* <button
                             className="btn btn-danger btn-sm mr-5"
                             onClick={() => handleDeleteGet(item.id)}
                           >
                             Delete
-                          </button>
+                          </button> */}
                           <button
                             className="btn btn-primary btn-sm mr-5"
                             onClick={() => handleViewData(item.id)}
