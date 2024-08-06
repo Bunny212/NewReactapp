@@ -2079,7 +2079,7 @@ const AddHousetypedetails = ({
                       <th>Garage Stalls</th>
                       <th>Garage Finish</th>
                       <th>Ceiling Finish</th>
-                      {/* <th>Status</th> */}
+                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -2087,15 +2087,20 @@ const AddHousetypedetails = ({
                     {console.log("responseData", responseData)}
                     {responseData.map((item: any, index: number) => (
 
-                     <tr key={index}>
-                       
+                      <tr key={index}>
+
                         <td>{item?.builder_value}</td>
                         <td>{item?.house_type_value}</td>
                         <td>{item?.garage_stalls_value}</td>
                         <td>{item?.garage_finish_name}</td>
                         <td>{item?.ceiling_finish_name}</td>
-                        {/* <td>{item?.status}</td> */}
-                     
+                        <td style={{
+                          backgroundColor: item.status === 'true' || item.status === true ? 'green' : 'red', 
+                          color: "#FFF"
+                        }}
+                        >
+                          {item.status === 'true' || item.status === true ? 'Active' : 'Not Active'}
+                        </td>
                         <td>
                           {/* <button
                             className="btn btn-danger btn-sm mr-5"
@@ -2268,11 +2273,11 @@ const AddHousetypedetails = ({
 
                       <div className="form-group col-md-6 mb-10">
                         <label className="col-md-3 control-label">
-                        House Type Status :<span className="text_red">*</span>
+                          House Type Status :<span className="text_red">*</span>
                         </label>
                         <div className="col-md-9">
-                        <select style={{ marginLeft: '10px' }} className={`form-control input-sm }`} 
-                          value={selectedValue} onChange={handleChange}>
+                          <select style={{ marginLeft: '10px' }} className={`form-control input-sm }`}
+                            value={selectedValue} onChange={handleChange}>
                             <option value="true">Active</option>
                             <option value="false">Not Active</option>
                           </select>
@@ -2357,7 +2362,7 @@ const AddHousetypedetails = ({
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="row">
                       {/* <div className="form-group col-md-6 mb-10">
                       <label className="col-md-3 control-label">
