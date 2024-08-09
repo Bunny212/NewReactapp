@@ -9,7 +9,7 @@ const prod = {
 
 
 
-    API_URL: 'https://2fd82c9861.nxcli.io/sdi-api-latest/',
+    API_URL: 'https://2fd82c9861.nxcli.io/sdi-api-latest',
     API_URL_USERS: 'https://2fd82c9861.nxcli.io/sdi-api-latest/users',
     PAGE_SIZE: 20
   }
