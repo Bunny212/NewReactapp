@@ -2009,7 +2009,7 @@ const JobOrderPage = ({
         method: "GET",
       };
       const response = await fetch(
-        "https://2fd82c9861.nxcli.io/sdi-api/house-type-new",
+        "https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new",
         requestOptions
       );
       var result = await response.json();
@@ -2116,7 +2116,7 @@ const JobOrderPage = ({
         method: "GET",
       };
       const response = await fetch(
-        `https://2fd82c9861.nxcli.io/sdi-api/house-type-new/${id}`,
+        `https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.json();
