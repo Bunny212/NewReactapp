@@ -80,25 +80,29 @@ const AddHousetypedetails = ({
     setModalIsOpen(true);
   };
 
+
+
   const closeModal = () => {
+    console.log('closeModal called'); // Ensure function is called
+    setSubmitted(false)
     setModalIsOpen(false);
-    // var selectElement11 = document.querySelector('.form-control.input-sm.hello1');
-    // if (selectElement11) {
-    //     selectElement11.value = '0'; // or set to the value of your default option
-    // }
-
-
-
-    // Use type assertion to specify that the element is an HTMLSelectElement
+    setJobOrderError("");
+    
+   // Use type assertion to specify that the element is an HTMLSelectElement
     const selectElement11 = document.querySelector('.form-control.input-sm.hello1') as HTMLSelectElement;
-    console.log('hello', selectElement11);
+    console.log('Select element:', selectElement11); // Debug: Check if the select element is found
+  
     if (selectElement11) {
-      console.log('hello2', selectElement11);
+      console.log('Modifying select element:', selectElement11); // Debug: Check if the select element modification is happening
       selectElement11.value = '0'; // Ensure this matches the value of your default option
       selectElement11.dispatchEvent(new Event('change')); // Optional: Trigger change event
+    } else {
+      console.log('Select element not found.'); // Debug: Element not found
     }
-
   };
+
+
+
 
   const [selectedValue, setSelectedValue] = useState<string>('true');
 
@@ -190,7 +194,7 @@ const AddHousetypedetails = ({
         method: "GET",
       };
       const response = await fetch(
-        "https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new",
+        "https://sdipschedule.com/api/house-type-new",
         requestOptions
       );
       var result = await response.json();
@@ -235,7 +239,7 @@ const AddHousetypedetails = ({
         method: "DELETE",
       };
       const response = await fetch(
-        `https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new/${id}`,
+        `https://sdipschedule.com/api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.text();
@@ -258,13 +262,13 @@ const AddHousetypedetails = ({
   };
   const handleViewData = async (id: number) => {
     // Explicitly specify the type of 'id' as 'number'
-    console.log("iddddddddddddddddd", id)
+   
     try {
       const requestOptions = {
         method: "GET",
       };
       const response = await fetch(
-        `https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new/${id}`,
+        `https://sdipschedule.com/api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.json();
@@ -302,7 +306,7 @@ const AddHousetypedetails = ({
 
       setSelectedValue(result.data.status)
 
-      console.log("editttttttttttttttttttt", result.data.status)
+      // console.log("editttttttttttttttttttt", result.data.status)
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -315,11 +319,11 @@ const AddHousetypedetails = ({
         method: "GET",
       };
       const response = await fetch(
-        `https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new/${id}`,
+        `https://sdipschedule.com/api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.json();
-      console.log("get the data form the Edit ", result.data);
+      // console.log("get the data form the Edit ", result.data);
       // alert("Record is Edit ");
       // setformhide(false);
       setshowEditbtn(false);
@@ -489,9 +493,9 @@ const AddHousetypedetails = ({
     }),
   };
 
-  {
-    console.log("jobOrders", jobOrders);
-  }
+  // {
+  //   // console.log("jobOrders", jobOrders);
+  // }
 
   const setFormDataState = () => {
     if (jobOrders.activeJobOrder.id !== undefined) {
@@ -514,7 +518,7 @@ const AddHousetypedetails = ({
           });
 
           // console.log("llllll");
-          console.log(item);
+          // console.log(item);
           item.houseLevelTypeId = parseInt(item.houseLevelTypeId, 10);
           return item;
         });
@@ -814,10 +818,10 @@ const AddHousetypedetails = ({
     const fieldObj: any = {};
     // const isFogged = formData.ceilingFinishFogged || fogged;
     const isFogged = fogged;
-    console.log(isFogged);
+    // console.log(isFogged);
     // Start date
     let startDate = formData.startDate || "0000-00-00";
-    console.log("startDate => ", formData.startDate);
+    // console.log("startDate => ", formData.startDate);
 
     if (
       dateFieldName === "hangerStartDate" ||
@@ -932,7 +936,7 @@ const AddHousetypedetails = ({
     // Paint date
     let paintDate = moment(sanderDate).add("days", 1).format("YYYY-MM-DD");
     if (moment(paintDate).day() == 6) {
-      console.log("day 6 => ", moment(paintDate).day());
+      // console.log("day 6 => ", moment(paintDate).day());
       fieldObj.paintDate = moment(paintDate)
         .add("days", 2)
         .format("YYYY-MM-DD");
@@ -948,7 +952,7 @@ const AddHousetypedetails = ({
 
     return fieldObj;
 
-    console.log(fieldObj);
+    // console.log(fieldObj);
   };
 
   const onDateChange = (date: any, name: string) => {
@@ -1735,7 +1739,7 @@ const AddHousetypedetails = ({
     console.log("Input Value:", Housetypedata);
   };
   const postData = async () => {
-    const url = "https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new-save";
+    const url = "https://sdipschedule.com/api/house-type-new-save";
     const data = {
       builder_id: formdata?.builderId,
       builder_value: builderName?.props?.children,
@@ -1804,7 +1808,7 @@ const AddHousetypedetails = ({
   const updateHouseType = async (id: any) => {
     try {
       const response = await fetch(
-        `https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new/${id}`,
+        `https://sdipschedule.com/api/house-type-new/${id}`,
         {
           method: "PUT",
           headers: {
@@ -2273,7 +2277,7 @@ const AddHousetypedetails = ({
 
                       <div className="form-group col-md-6 mb-10">
                         <label className="col-md-3 control-label">
-                          House Type Status :<span className="text_red">*</span>
+                          House Type Status :<span className="text_red"></span>
                         </label>
                         <div className="col-md-9">
                           <select style={{ marginLeft: '10px' }} className={`form-control input-sm }`}
@@ -2942,7 +2946,7 @@ const AddHousetypedetails = ({
                         {showsavebtn ? (
                           <button
                             className="btn btn-primary btn-sm mr-5"
-                            type="button"
+                            type="submit"
                             onClick={postData}
                           >
                             Save Details

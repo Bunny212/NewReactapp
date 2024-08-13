@@ -1835,7 +1835,7 @@ const JobOrderPage = ({
   );
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
     setTimeout(() => {
 
@@ -1846,7 +1846,7 @@ const JobOrderPage = ({
       }
     }, 1000);
 
-  },[printscreen])
+  }, [printscreen])
 
   const [housLevelModalSubmitted, setHousLevelModalSubmitted] = useState(false);
   const closeHouseLevelModal = () => {
@@ -2009,18 +2009,28 @@ const JobOrderPage = ({
         method: "GET",
       };
       const response = await fetch(
-        "https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new",
+        "https://sdipschedule.com/api/house-type-new",
         requestOptions
       );
       var result = await response.json();
       console.log("result", result);
 
-      // Filter the data to exclude items where status is false (or 0)
-      const filteredData = result.data.filter((item: any) => item.status === true)
+      let filteredData;
 
-      // Sort the filtered data
+     
+        if (formData.id === 0) {
+          
+          filteredData = result.data.filter((item: any) => item.status === true);
+          
+        } else {
+         
+          filteredData = result.data
+         
+        }
+     
+
       const sortedData = filteredData.sort((a: any, b: any) => {
-        // Check if the house_type_value starts with a number
+      
         const startsWithNumberA = /^\d/.test(a.house_type_value);
         const startsWithNumberB = /^\d/.test(b.house_type_value);
 
@@ -2050,7 +2060,7 @@ const JobOrderPage = ({
     fetchData(); // Fetch data when component mounts
     const timeoutId = setTimeout(handleSelectChangeprint, 2000);
     return () => clearTimeout(timeoutId);
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, [formData.id]); // Empty dependency array ensures this effect runs only once
   console.log("--------------------------------", housetypelist);
 
   const handleSelectChangeprint = () => {
@@ -2116,7 +2126,7 @@ const JobOrderPage = ({
         method: "GET",
       };
       const response = await fetch(
-        `https://2fd82c9861.nxcli.io/sdi-api-latest/house-type-new/${id}`,
+        `https://sdipschedule.com/api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.json();
@@ -2346,10 +2356,10 @@ const JobOrderPage = ({
                         //   submitted && !formData.builderId ? "ap-required" : ""
                         // }`}
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.builderId
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.builderId
+                            ? "ap-required"
+                            : ""
                           }`}
                         name="builderId"
                         value={formData.builderId || 0}
@@ -2389,10 +2399,10 @@ const JobOrderPage = ({
                         // }`}
 
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.supervisorId
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.supervisorId
+                            ? "ap-required"
+                            : ""
                           }`}
                         name="supervisorId"
                         value={formData.supervisorId || 0}
@@ -2453,10 +2463,10 @@ const JobOrderPage = ({
 
 
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.houseTypeId
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.houseTypeId
+                            ? "ap-required"
+                            : ""
                           }`}
                       >
                         {/* {console.log(
@@ -2494,10 +2504,10 @@ const JobOrderPage = ({
                         // }`}
 
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.address
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.address
+                            ? "ap-required"
+                            : ""
                           }`}
                         onKeyDown={(e) => handleEnter(e)}
                       />
@@ -2513,10 +2523,10 @@ const JobOrderPage = ({
                         //   submitted && !formData.cityId ? "ap-required" : ""
                         // }`}
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.cityId
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.cityId
+                            ? "ap-required"
+                            : ""
                           }`}
                         name="cityId"
                         value={formData.cityId || 0}
@@ -2598,10 +2608,10 @@ const JobOrderPage = ({
                             //     : ""
                             // }`}
                             customClassName={`form-control input-sm ${isSpecialCondition
-                                ? ""
-                                : submitted && !formData.deliveryDate
-                                  ? "ap-required"
-                                  : ""
+                              ? ""
+                              : submitted && !formData.deliveryDate
+                                ? "ap-required"
+                                : ""
                               }`}
                           />
                         }
@@ -2635,10 +2645,10 @@ const JobOrderPage = ({
                         // }`}
 
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.deliveredById
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.deliveredById
+                            ? "ap-required"
+                            : ""
                           }`}
                         name="deliveredById"
                         value={formData.deliveredById || 0}
@@ -2702,10 +2712,10 @@ const JobOrderPage = ({
 
 
                             customClassName={`form-control make-disabled input-sm ${isSpecialCondition
-                                ? ""
-                                : submitted && !formData.startDate
-                                  ? "ap-required"
-                                  : ""
+                              ? ""
+                              : submitted && !formData.startDate
+                                ? "ap-required"
+                                : ""
                               }`}
                           />
                         }
@@ -2761,10 +2771,10 @@ const JobOrderPage = ({
                             // }`}
 
                             customClassName={`form-control make-disabled input-sm ${isSpecialCondition
-                                ? ""
-                                : submitted && !formData.paintStartDate
-                                  ? "ap-required"
-                                  : ""
+                              ? ""
+                              : submitted && !formData.paintStartDate
+                                ? "ap-required"
+                                : ""
                               }`}
                           />
                         }
@@ -2798,10 +2808,10 @@ const JobOrderPage = ({
                         // }`}
 
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.garageStallId
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.garageStallId
+                            ? "ap-required"
+                            : ""
                           }`}
                         name="garageStallId"
                         value={formData.garageStallId || 0}
@@ -2864,10 +2874,10 @@ const JobOrderPage = ({
                         // }`}
 
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.ceilingFinishId
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.ceilingFinishId
+                            ? "ap-required"
+                            : ""
                           }`}
 
                         name="ceilingFinishId"
@@ -2903,10 +2913,10 @@ const JobOrderPage = ({
 
 
                         className={`form-control input-sm ${isSpecialCondition
-                            ? ""
-                            : submitted && !formData.garageFinishId
-                              ? "ap-required"
-                              : ""
+                          ? ""
+                          : submitted && !formData.garageFinishId
+                            ? "ap-required"
+                            : ""
                           }`}
                         name="garageFinishId"
                         value={formData.garageFinishId || 0}
@@ -3744,8 +3754,8 @@ const JobOrderPage = ({
                 name="emailMessage"
                 onChange={(e) => onMailFormChange(e)}
                 className={`form-control input-sm ${mailSubmitted && !mailFormData.emailMessage
-                    ? "ap-required"
-                    : ""
+                  ? "ap-required"
+                  : ""
                   }`}
               />
             </div>
@@ -3791,8 +3801,8 @@ const JobOrderPage = ({
                   value={houseTypeModalFormData.name || ""}
                   onChange={(e) => onHouseTypeFormChange(e)}
                   className={`form-control input-sm ${housLevelModalSubmitted && !houseTypeModalFormData.name
-                      ? "ap-required"
-                      : ""
+                    ? "ap-required"
+                    : ""
                     }`}
                 />
               </div>
