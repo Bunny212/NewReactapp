@@ -1100,7 +1100,7 @@ useEffect(() => {
                 </div>
               </div>
               <div className="pull-right mt-10">
-              <a href="/delete-filters-page" className="filter-delete-class">Delete Filter</a>
+              {/* <a href="/delete-filters-page" className="filter-delete-class">Delete Filter</a> */}
                 <button
                   type="button"
                   className="btn btn-default btn-sm"

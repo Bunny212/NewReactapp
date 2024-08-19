@@ -1003,6 +1003,7 @@ const JobOrderPage = ({
           //   totalVals.totalGarageGarOvers += parseInt(billItem.itemValue, 10);
           // }
         } else {
+          console.log('elese');
           if (itemGroupName === "12'") {
             totalVals.total12 += parseInt(billItem.itemValue, 10);
           } else if (itemGroupName === '54"') {
@@ -1123,6 +1124,8 @@ const JobOrderPage = ({
       })
       .flat();
 
+      
+
     return items.length > 0 ? items[0].billingItemId : 0;
   };
 
@@ -1132,7 +1135,7 @@ const JobOrderPage = ({
         !uniqueBillingItems.some(
           (singleItem: any) =>
             singleItem.value == item.id && singleItem.index !== index
-        )
+        )        
     );
 
     return (
@@ -1218,7 +1221,7 @@ const JobOrderPage = ({
       items.push(<>{renderBillingItemInput(rowIndex, i, billingItems)}</>);
     }
 
-    console.log("items", items);
+    //console.log("items", items);
     return items;
   };
 
@@ -1428,7 +1431,7 @@ const JobOrderPage = ({
               onClick: () => {
                 if (!formData.id) {
                   actions.addJobOrder(formData);
-                  console.log("this if form data", formData);
+                 // console.log("this if form data", formData);
                   toast.success("Job order added successfully!");
                   History.push("/");
                 } else {
@@ -1600,7 +1603,7 @@ const JobOrderPage = ({
 
         }
       } else {
-        console.log("this is form data from updata ", formData);
+        //console.log("this is form data from updata ", formData);
         await actions.updateJobOrder(formData);
         toast.success("Job order updated successfully");
         History.push("/");
@@ -1728,7 +1731,7 @@ const JobOrderPage = ({
       (singleDeliveredBy: any) => singleDeliveredBy.id === deliveredById
     );
     const deliveredByName = deliveredBy.length ? deliveredBy[0].name : "";
-    console.log("fsdafsdfsdfsdafsfsdfsadf", deliveredBy);
+    
     return <>{deliveredByName}</>;
   };
 
@@ -1839,7 +1842,7 @@ const JobOrderPage = ({
 
     setTimeout(() => {
 
-      console.log("printscreenprintscreenprintscreenprintscreen22", printscreen)
+      
       if (printscreen) {
         handlePrint?.();
         setPrintscreen(false);
@@ -2013,7 +2016,7 @@ const JobOrderPage = ({
         requestOptions
       );
       var result = await response.json();
-      console.log("result", result);
+      
 
       let filteredData;
 
@@ -2061,7 +2064,7 @@ const JobOrderPage = ({
     const timeoutId = setTimeout(handleSelectChangeprint, 2000);
     return () => clearTimeout(timeoutId);
   }, [formData.id]); // Empty dependency array ensures this effect runs only once
-  console.log("--------------------------------", housetypelist);
+  
 
   const handleSelectChangeprint = () => {
     const selectElement = document.getElementById(
@@ -2078,12 +2081,12 @@ const JobOrderPage = ({
     const selectedId = event.target.value;
     setSelectedHouseTypeId(selectedId);
     handleViewData(selectedId);
-    console.log(selectedId);
+    
     const selectedName = event.target.options[event.target.selectedIndex].text;
-    // console.log("Selected ID:", selectedId);
+    
     setHouseName(selectedName);
     dispatch(HouseTypeActions.setHouseTypeName(selectedName));
-    // console.log("this is house name ", selectedId);
+    
   };
 
   // const handleSelectChange = (event: any) => {
@@ -2130,9 +2133,6 @@ const JobOrderPage = ({
         requestOptions
       );
       const result = await response.json();
-      console.log("get the data form the Edit ", result.data);
-      console.log("hello", Edithousetypeid);
-      console.log("hello2", id);
       // alert("Record is Edit ");
 
       setFormData((prevState) => ({

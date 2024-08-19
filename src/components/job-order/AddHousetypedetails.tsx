@@ -42,7 +42,7 @@ import {
   Target,
 } from "../../types/interfaces";
 import { Alert, Button } from "react-bootstrap";
-import { Console } from "console";
+// import { Console } from "console";
 
 Modal.setAppElement("#root");
 
@@ -83,14 +83,14 @@ const AddHousetypedetails = ({
 
 
   const closeModal = () => {
-    console.log('closeModal called'); // Ensure function is called
+    // console.log('closeModal called'); // Ensure function is called
     setSubmitted(false)
     setModalIsOpen(false);
     setJobOrderError("");
     
    // Use type assertion to specify that the element is an HTMLSelectElement
     const selectElement11 = document.querySelector('.form-control.input-sm.hello1') as HTMLSelectElement;
-    console.log('Select element:', selectElement11); // Debug: Check if the select element is found
+    // console.log('Select element:', selectElement11); // Debug: Check if the select element is found
   
     if (selectElement11) {
       console.log('Modifying select element:', selectElement11); // Debug: Check if the select element modification is happening
@@ -133,61 +133,7 @@ const AddHousetypedetails = ({
     created_at: string;
     updated_at: string;
   };
-  // const [jobOrder, setJobOrder] = useState<JobOrder>(defaultState);
-
-  // var fetchData = async () => {
-  //   try {
-  //     const requestOptions = {
-  //       method: "GET",
-  //     };
-  //     const response = await fetch(
-  //       "https://2fd82c9861.nxcli.io/sdi-api/house-type-new",
-  //       // "https://9d8d4152b6.nxcli.io/sdi-api/house-type-new",
-  //       requestOptions
-  //     );
-  //     const result = await response.json();
-  //     console.log("this is data to be sort", result.data);
-
-  //     const sortedData = result.data.sort((a: any, b: any) => {
-  //       // Check if the house_type_value starts with a number
-  //       const startsWithNumberA = /^\d/.test(a.house_type_value);
-  //       const startsWithNumberB = /^\d/.test(b.house_type_value);
-
-  //       // If one starts with a number and the other doesn't, sort accordingly
-  //       if (startsWithNumberA && !startsWithNumberB) {
-  //         return -1;
-  //       }
-  //       if (!startsWithNumberA && startsWithNumberB) {
-  //         return 1;
-  //       }
-
-  //       // If both start with a number or both don't, sort by house_type_id numerically
-  //       const houseTypeIdA = parseInt(a.house_type_id);
-  //       const houseTypeIdB = parseInt(b.house_type_id);
-  //       if (houseTypeIdA !== houseTypeIdB) {
-  //         return houseTypeIdA - houseTypeIdB;
-  //       }
-
-  //       // If house_type_id is the same, sort by house_type_value alphabetically
-  //       const houseTypeValueA = a.house_type_value.toLowerCase();
-  //       const houseTypeValueB = b.house_type_value.toLowerCase();
-  //       if (houseTypeValueA < houseTypeValueB) {
-  //         return -1;
-  //       }
-  //       if (houseTypeValueA > houseTypeValueB) {
-  //         return 1;
-  //       }
-  //       return 0;
-  //     });
-
-  //     // Set the sorted data to state
-  //     setResponseData(sortedData);
-  //     // setResponseData(result.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-
+ 
   var fetchData = async () => {
     try {
       const requestOptions = {
@@ -198,7 +144,7 @@ const AddHousetypedetails = ({
         requestOptions
       );
       var result = await response.json();
-      console.log("result", result);
+
 
       const sortedData = result.data.sort((a: any, b: any) => {
         // Check if the house_type_value starts with a number
@@ -272,7 +218,7 @@ const AddHousetypedetails = ({
         requestOptions
       );
       const result = await response.json();
-      console.log("get the data form the Edit ", result.data);
+      // console.log("get the data form the Edit ", result.data);
       // alert("Record is Edit ");
       // setformhide(false);
       setshowEditbtn(true);
@@ -1008,7 +954,7 @@ const AddHousetypedetails = ({
   const onItemSelectChange = (e: any, itemType: string, index: number) => {
     setJiochanged(true);
     const value: any = parseInt(e.target.value, 10);
-    console.log("Testing 1");
+    // console.log("Testing 1");
     console.log(typeof value);
     if (itemType == "billing_item") {
       const items = [...uniqueBillingItems];
@@ -1029,16 +975,16 @@ const AddHousetypedetails = ({
       } else {
         const b = [...formData.houseLevels];
 
-        console.log("-----");
-        console.log(b);
-        console.log("-----");
+        // console.log("-----");
+        // console.log(b);
+        // console.log("-----");
         const y = b.filter((item) =>
           item.billingItems.some(
             (billItem: any) => billItem.columnOrder == index
           )
         );
 
-        console.log("Filter billing items");
+        // console.log("Filter billing items");
         console.log(y);
         if (y.length > 0) {
           const x = b.map((item) => {
@@ -1736,7 +1682,7 @@ const AddHousetypedetails = ({
 
   const ontextchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHousetypedata(e.target.value);
-    console.log("Input Value:", Housetypedata);
+    // console.log("Input Value:", Housetypedata);
   };
   const postData = async () => {
     const url = "https://sdipschedule.com/api/house-type-new-save";
@@ -1769,7 +1715,7 @@ const AddHousetypedetails = ({
     };
 
 
-    console.log("selectedValue", selectedValue)
+    // console.log("selectedValue", selectedValue)
 
     try {
       const response = await fetch(url, {
@@ -1796,7 +1742,7 @@ const AddHousetypedetails = ({
       if (typeof fetchData === "function") {
         fetchData();
       } else {
-        console.warn("fetchData function is not defined");
+        // console.warn("fetchData function is not defined");
 
       }
     } catch (error) {
@@ -2586,10 +2532,10 @@ const AddHousetypedetails = ({
     )) : (<></>)} */}
 
                       {renderBillingItemsSelectList()}
-                      {console.log(
+                      {/* {console.log(
                         "renderBillingItemsSelectList()",
                         renderBillingItemsSelectList()
-                      )}
+                      )} */}
                       <div className="clear pad-5" />
                       {/* <div className="col-md-offset-2 col-md-2">
       {renderBillingItemsSelect(1)}
@@ -2992,7 +2938,7 @@ const AddHousetypedetails = ({
                       )} */}
                       </div>
                     </div>
-                    {console.log("formdata", formData)}
+                    {/* {console.log("formdata", formData)} */}
                     <hr />
                   </form>
                   {/* ) : (
