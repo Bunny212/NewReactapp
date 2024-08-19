@@ -2012,7 +2012,7 @@ const JobOrderPage = ({
         method: "GET",
       };
       const response = await fetch(
-        "https://sdipschedule.com/api/house-type-new",
+        "https://test.sdipschedule.com/api/house-type-new",
         requestOptions
       );
       var result = await response.json();
@@ -2129,7 +2129,7 @@ const JobOrderPage = ({
         method: "GET",
       };
       const response = await fetch(
-        `https://sdipschedule.com/api/house-type-new/${id}`,
+        `https://test.sdipschedule.com/api/house-type-new/${id}`,
         requestOptions
       );
       const result = await response.json();
