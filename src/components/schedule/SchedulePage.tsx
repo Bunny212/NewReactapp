@@ -570,46 +570,80 @@ const SchedulePage = ({
     return newDate;
   }
 
-  const highlightBackgroundClass = (date: any, dayInterval: number,jobOrderId: number) => {
-    // // console.log(date);
-    const currentJobOrder = jobOrdersData.filter((jobOrder: any) => jobOrder.id === jobOrderId)[0] || {};
-    // // console.log(currentJobOrder);
-    let paintStDate = moment(currentJobOrder.paintStartDate).format('YYYY-MM-DD');
-    let CurrentDate = moment().format('YYYY-MM-DD')
-    // // if( CurrentDate >= paintStDate){
-    // //   setPaintDateStatus(true);
-    // //   console.log(jobOrderId, currentJobOrder.id);
-    // //   setJobOrderId(jobOrderId);
-    // // }else{
-    // //   setPaintDateStatus(false);
-    // //   setJobOrderId(jobOrderId);
-    // // }
 
+
+
+  // const highlightBackgroundClass = (date: any, dayInterval: number,jobOrderId: number) => {
+  //   // // console.log(date);
+  //   const currentJobOrder = jobOrdersData.filter((jobOrder: any) => jobOrder.id === jobOrderId)[0] || {};
+  //   // // console.log(currentJobOrder);
+  //   let paintStDate = moment(currentJobOrder.paintStartDate).format('YYYY-MM-DD');
+  //   let CurrentDate = moment().format('YYYY-MM-DD')
+  //   // // if( CurrentDate >= paintStDate){
+  //   // //   setPaintDateStatus(true);
+  //   // //   console.log(jobOrderId, currentJobOrder.id);
+  //   // //   setJobOrderId(jobOrderId);
+  //   // // }else{
+  //   // //   setPaintDateStatus(false);
+  //   // //   setJobOrderId(jobOrderId);
+  //   // // }
+
+  //   console.log("jobOrdersData fahad", jobOrdersData)
+
+
+  //   if (!date) {
+  //     return '';
+  //   }
+  //   const currentDate = moment().add('days', 1);
+  //   date = moment(date).toDate();
+  //   dayInterval = dayInterval ? dayInterval : 0;
+  //   let targetDate = moment(date).add('days', dayInterval);
+  //   let highlightClass = '';
+
+  // // // Check if the current date is above the paintStartDate
+  // // if (paintStDate && CurrentDate.isAfter(moment(paintStDate))) {
+  // //   highlightClass = 'table-row-error';
+  // // }
+  // // // Check if the target date is the same as the current date
+  // // else if (CurrentDate.isSame(targetDate, 'd')) {
+  // //   highlightClass = 'light-green';
+  // // }
+
+  // if (currentDate.isSame(targetDate, 'd')) {
+  //   highlightClass = 'light-green';
+  // }
+
+  //   return highlightClass;
+  // }
+
+  const highlightBackgroundClass = (date: any, dayInterval: number, jobOrderId: number) => {
+    // Ensure jobOrdersData is an array
+    const validJobOrdersData = Array.isArray(jobOrdersData) ? jobOrdersData : [];
+
+    // Find the current job order by ID
+    const currentJobOrder = validJobOrdersData.find((jobOrder: any) => jobOrder.id === jobOrderId) || {};
+
+    // let paintStDate = moment(currentJobOrder?.paintStartDate).format('YYYY-MM-DD');
+    // let CurrentDate = moment().format('YYYY-MM-DD');
 
     if (!date) {
-      return '';
+        return '';
     }
+
     const currentDate = moment().add('days', 1);
     date = moment(date).toDate();
     dayInterval = dayInterval ? dayInterval : 0;
     let targetDate = moment(date).add('days', dayInterval);
     let highlightClass = '';
 
-  // // Check if the current date is above the paintStartDate
-  // if (paintStDate && CurrentDate.isAfter(moment(paintStDate))) {
-  //   highlightClass = 'table-row-error';
-  // }
-  // // Check if the target date is the same as the current date
-  // else if (CurrentDate.isSame(targetDate, 'd')) {
-  //   highlightClass = 'light-green';
-  // }
-
-  if (currentDate.isSame(targetDate, 'd')) {
-    highlightClass = 'light-green';
-  }
+    if (currentDate.isSame(targetDate, 'd')) {
+        highlightClass = 'light-green';
+    }
 
     return highlightClass;
-  }
+};
+
+
 
   const getfilteredUsers = (usersData: any, userTypeId: number) => {
     const newData = usersData.filter((user: any) => {
