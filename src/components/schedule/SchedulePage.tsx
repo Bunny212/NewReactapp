@@ -1303,10 +1303,10 @@ useEffect(() => {
                             Closed
                           </label>
                           <input type="hidden" name="sGarageFilter" value="" onChange={(e) => onFilterFormInputChange(e)} />
-                            <button type="button"
+                            {/* <button type="button"
                             className="btn btn-default btn-sm ml-30 save-search-btn"
                             onClick={(e) => onSaveSearch()}
-                           > Save Search</button>
+                           > Save Search</button> */}
                         </div>
                       </div>
                     </div>
